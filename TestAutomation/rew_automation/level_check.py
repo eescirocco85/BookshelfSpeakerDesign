@@ -14,7 +14,7 @@ from .session import MIC_INPUT_CHANNEL, REFERENCE_INPUT_CHANNEL
 
 
 WHITE_NOISE_LEVEL_DBFS = -20.0
-LEVEL_CHECK_SECONDS = 3.0
+LEVEL_CHECK_SECONDS = 5.0
 BASELINE_SECONDS = 0.8
 AFTER_STOP_SECONDS = 0.8
 GeneratorStarter = Callable[[RewClient], GeneratorSetup]
@@ -42,6 +42,9 @@ class LevelCheckResult:
     baseline_sample_count: int
     sample_count: int
     after_stop_sample_count: int
+    rta_rms_spl: float | None = None
+    rta_rms_a_weighted_spl: float | None = None
+    rta_rms_c_weighted_spl: float | None = None
 
 
 def run_pink_noise_level_check(
@@ -68,17 +71,23 @@ def run_generator_level_check(
     baseline_samples: list[dict[str, Any]] = []
     active_samples: list[dict[str, Any]] = []
     after_stop_samples: list[dict[str, Any]] = []
+    started_rta_for_level_reading = before_stop is None
     try:
         _debug_response("/input-levels/command Start", client.post("/input-levels/command", {"command": "Start"}))
         _debug("Capturing baseline input levels")
         baseline_samples = _capture_samples(client, BASELINE_SECONDS)
 
+        if started_rta_for_level_reading:
+            _start_rta_for_level_reading(client)
         setup = starter(client)
         _debug_state(client, "after play")
 
         _debug("Capturing active input levels")
         active_samples = _capture_samples(client, duration_seconds)
+        rta_levels = _read_rta_levels(client)
     finally:
+        if started_rta_for_level_reading:
+            _stop_rta_for_level_reading(client)
         if before_stop is not None:
             try:
                 before_stop(client)
@@ -106,6 +115,7 @@ def run_generator_level_check(
         after_stop_samples=after_stop_samples,
         setup=setup,
         duration_seconds=duration_seconds,
+        rta_levels=rta_levels if "rta_levels" in locals() else {},
     )
     _debug(
         "Level check captured "
@@ -138,6 +148,7 @@ def _summarize(
     after_stop_samples: list[dict[str, Any]],
     setup: GeneratorSetup,
     duration_seconds: float,
+    rta_levels: dict[str, Any],
 ) -> LevelCheckResult:
     all_samples = active_samples or baseline_samples or after_stop_samples
     unit = str(all_samples[-1].get("unit", "dBFS")) if all_samples else "dBFS"
@@ -156,6 +167,9 @@ def _summarize(
         baseline_sample_count=len(baseline_samples),
         sample_count=len(active_samples),
         after_stop_sample_count=len(after_stop_samples),
+        rta_rms_spl=_level_value(rta_levels, "rmsLevel"),
+        rta_rms_a_weighted_spl=_level_value(rta_levels, "rmsLevelAWeighted"),
+        rta_rms_c_weighted_spl=_level_value(rta_levels, "rmsLevelCWeighted"),
     )
 
 
@@ -184,6 +198,51 @@ def _channel_values(samples: list[dict[str, Any]], key: str, channel: int) -> li
         if isinstance(raw_values, list) and len(raw_values) > index:
             values.append(float(raw_values[index]))
     return values
+
+
+def _read_rta_levels(client: RewClient) -> dict[str, Any]:
+    try:
+        levels = client.get("/rta/levels")
+        _debug_response("/rta/levels", levels)
+    except Exception as exc:
+        _debug(f"/rta/levels failed: {exc}")
+        return {}
+    if isinstance(levels, list) and levels and isinstance(levels[0], dict):
+        return levels[0]
+    return {}
+
+
+def _start_rta_for_level_reading(client: RewClient) -> None:
+    try:
+        _debug_response(
+            "/rta/configuration PUT",
+            client.put(
+                "/rta/configuration",
+                {
+                    "averaging": "Forever",
+                    "restartCaptureOnGeneratorChange": True,
+                    "stopGeneratorWithRTA": False,
+                },
+            ),
+        )
+        _debug_response("/rta/command Reset averaging", client.post("/rta/command", {"command": "Reset averaging"}))
+        _debug_response("/rta/command Start", client.post("/rta/command", {"command": "Start"}))
+    except Exception as exc:
+        _debug(f"Could not start RTA for level reading: {exc}")
+
+
+def _stop_rta_for_level_reading(client: RewClient) -> None:
+    try:
+        _debug_response("/rta/command Stop", client.post("/rta/command", {"command": "Stop"}))
+    except Exception as exc:
+        _debug(f"Could not stop RTA for level reading: {exc}")
+
+
+def _level_value(levels: dict[str, Any], key: str) -> float | None:
+    value = levels.get(key)
+    if isinstance(value, dict) and isinstance(value.get("value"), (int, float)):
+        return float(value["value"])
+    return None
 
 
 def _mean(values: list[float]) -> float | None:
