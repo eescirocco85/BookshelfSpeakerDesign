@@ -130,6 +130,43 @@ def configure_input_calibration(client: RewClient, cal_file: Path = MIC_CAL_FILE
         )
 
 
+def calibrate_input_spl_to_a_weighted_level(
+    client: RewClient,
+    measured_a_weighted_spl: float,
+    target_spl: float = 100.0,
+) -> float:
+    """Adjust REW input calibration so the last A-weighted reading maps to target_spl."""
+    current = client.get("/audio/input-cal")
+    if not isinstance(current, dict):
+        raise RewDeviceError(f"Could not read REW input calibration settings: {current}")
+
+    cal_data = current.get("calDataAllInputs")
+    if not isinstance(cal_data, dict):
+        raise RewDeviceError(f"REW input calibration data was missing: {current}")
+
+    current_dbfs_at_94 = cal_data.get("dBFSAt94dBSPL")
+    if not isinstance(current_dbfs_at_94, (int, float)):
+        raise RewDeviceError(f"REW input calibration dBFSAt94dBSPL was missing: {current}")
+
+    new_dbfs_at_94 = float(current_dbfs_at_94) + measured_a_weighted_spl - target_spl
+    cal_data["dBFSAt94dBSPL"] = new_dbfs_at_94
+
+    body = {
+        "separateCalFileForEachInput": current.get("separateCalFileForEachInput", False),
+        "inputDeviceIsCWeighted": current.get("inputDeviceIsCWeighted", False),
+        "calDataAllInputs": cal_data,
+    }
+    client.put("/audio/input-cal", body)
+
+    readback = client.get("/audio/input-cal")
+    readback_cal = None
+    if isinstance(readback, dict) and isinstance(readback.get("calDataAllInputs"), dict):
+        readback_cal = readback["calDataAllInputs"].get("dBFSAt94dBSPL")
+    if not isinstance(readback_cal, (int, float)):
+        raise RewDeviceError(f"REW did not confirm updated input calibration: {readback}")
+    return float(readback_cal)
+
+
 def _require_device(expected: str, available: list[str], role: str) -> str:
     if expected in available:
         return expected

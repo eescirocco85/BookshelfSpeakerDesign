@@ -14,12 +14,23 @@ from .generator_control import (
     start_pink_noise,
     start_two_tone,
 )
-from .fsaf_measurement import FsafResult, finish_manual_fsaf_measurement, snapshot_measurements
 from .level_check import LevelCheckResult, run_generator_level_check
 from .logging_utils import get_log_path, write_debug
 from .rta_capture import RTA_CAPTURE_SECONDS, run_generator_rta_capture
-from .session import AudioSetup, RewDeviceError, check_rew_connectivity, configure_audio_devices
-from .sweep_measurement import SweepResult, run_frequency_sweep
+from .session import (
+    AudioSetup,
+    RewDeviceError,
+    calibrate_input_spl_to_a_weighted_level,
+    check_rew_connectivity,
+    configure_audio_devices,
+)
+from .sweep_measurement import (
+    DEFAULT_SWEEP_END_HZ,
+    DEFAULT_SWEEP_LEVEL_DBFS,
+    DEFAULT_SWEEP_START_HZ,
+    SweepResult,
+    run_frequency_sweep,
+)
 
 
 DEFAULT_DRIVER_NAME = "DEBUG"
@@ -41,7 +52,7 @@ class RewAutomationApp(tk.Tk):
         self.current_signal_starter: Callable[[RewClient], object] | None = None
         self.current_signal_label = ""
         self.current_signal_uses_rta = False
-        self.fsaf_snapshot: set[str] | None = None
+        self.last_pink_a_weighted_spl: float | None = None
 
         self._build()
         self.after(100, self.startup_checks)
@@ -65,10 +76,10 @@ class RewAutomationApp(tk.Tk):
         signal_buttons.pack(anchor=tk.W, pady=(18, 0))
         self.signal_buttons: list[ttk.Button] = []
         self.pink_button = self._add_signal_button(signal_buttons, "Pink Noise", self.run_pink_noise_check)
+        self.cal_spl_button = self._add_signal_button(signal_buttons, "Cal SPL to 100 dBA", self.calibrate_spl_to_100)
         self.two_tone_button = self._add_signal_button(signal_buttons, "Two-Tone", self.run_two_tone_check)
         self.multitone_button = self._add_signal_button(signal_buttons, "Multitone", self.run_multitone_check)
         self.sweep_button = self._add_signal_button(signal_buttons, "Sweep", self.run_sweep_check)
-        self.fsaf_button = self._add_signal_button(signal_buttons, "FSAF", self.run_fsaf_check)
 
         ttk.Label(outer, textvariable=self.level_result_var, justify=tk.LEFT, wraplength=560).pack(
             anchor=tk.W, fill=tk.X, pady=(12, 0)
@@ -109,9 +120,49 @@ class RewAutomationApp(tk.Tk):
             label="pink noise",
             description=(
                 "This will play 300 Hz to 2 kHz pink noise through REW at "
-                f"{DEFAULT_LEVEL_DBFS:g} dBFS on both output channels for about 3 seconds."
+                f"{DEFAULT_LEVEL_DBFS:g} dBFS on both output channels for about 5 seconds."
             ),
             starter=lambda rew: start_pink_noise(rew, level_dbfs=DEFAULT_LEVEL_DBFS),
+        )
+
+    def calibrate_spl_to_100(self) -> None:
+        if self.last_pink_a_weighted_spl is None:
+            messagebox.showerror(
+                "No pink-noise level",
+                "Run the Pink Noise test first so the GUI has a fresh A-weighted RMS level.",
+                parent=self,
+            )
+            return
+
+        should_run = messagebox.askokcancel(
+            "Calibrate SPL",
+            f"The latest pink-noise RTA RMS A-weighted level was {self.last_pink_a_weighted_spl:.1f} dB SPL.\n\n"
+            "Click OK to adjust REW input calibration so this level reports as 100.0 dB SPL A-weighted.",
+            parent=self,
+        )
+        if not should_run:
+            return
+
+        try:
+            new_cal = calibrate_input_spl_to_a_weighted_level(
+                self.client,
+                measured_a_weighted_spl=self.last_pink_a_weighted_spl,
+                target_spl=100.0,
+            )
+        except Exception as exc:
+            self._level_check_failed(exc)
+            return
+
+        write_debug(
+            "SPL calibration adjusted from latest pink-noise A-weighted level "
+            f"{self.last_pink_a_weighted_spl:.3f} dB SPL to target 100.0 dB SPL; "
+            f"dBFSAt94dBSPL={new_cal:.4f}"
+        )
+        self.level_result_var.set(
+            f"SPL calibration updated.\n"
+            f"Latest pink-noise A-weighted level: {self.last_pink_a_weighted_spl:.1f} dB SPL\n"
+            f"Target level: 100.0 dB SPL\n"
+            f"New dBFS at 94 dB SPL: {new_cal:.4f}"
         )
 
     def run_two_tone_check(self) -> None:
@@ -141,10 +192,10 @@ class RewAutomationApp(tk.Tk):
     def run_sweep_check(self) -> None:
         should_run = messagebox.askokcancel(
             "Run sweep measurement",
-            "This will run a sweep measurement from 150 Hz to 6 kHz using REW's measurement "
-            "sweep at -20 dBFS with a 1M sweep length, then save it into its REW group.\n\n"
-            "REW's API requires the lower frequency first, so this uses 150 Hz to 6 kHz for "
-            "the requested 6 kHz to 150 Hz range.\n\n"
+            f"This will run a sweep measurement from {DEFAULT_SWEEP_START_HZ:g} Hz "
+            f"to {DEFAULT_SWEEP_END_HZ:g} Hz using REW's measurement sweep at "
+            f"{DEFAULT_SWEEP_LEVEL_DBFS:g} dBFS with a 1M sweep length, set Loopback timing reference, "
+            "apply a 1 ms left / 5 ms right IR window, then save it into its REW group.\n\n"
             "Confirm the amplifier and speaker chain are safe, then click OK.",
             parent=self,
         )
@@ -157,63 +208,6 @@ class RewAutomationApp(tk.Tk):
         self.status_var.set("Running sweep measurement...")
         self.level_result_var.set("")
         worker = threading.Thread(target=self._sweep_worker, daemon=True)
-        worker.start()
-
-    def run_fsaf_check(self) -> None:
-        try:
-            self.fsaf_snapshot = snapshot_measurements(self.client)
-        except Exception as exc:
-            self._level_check_failed(exc)
-            return
-
-        self._set_signal_buttons_enabled(False)
-        self.progress.configure(mode="indeterminate")
-        self.progress.start(12)
-        self.status_var.set("Waiting for manual FSAF measurement...")
-        self.level_result_var.set("")
-        self._show_manual_fsaf_dialog()
-
-    def _show_manual_fsaf_dialog(self) -> None:
-        dialog = tk.Toplevel(self)
-        dialog.title("Manual FSAF Measurement")
-        dialog.transient(self)
-        dialog.grab_set()
-        dialog.geometry("520x260")
-
-        frame = ttk.Frame(dialog, padding=18)
-        frame.pack(fill=tk.BOTH, expand=True)
-        ttk.Label(frame, text="Run FSAF in REW", font=("Segoe UI", 14, "bold")).pack(anchor=tk.W)
-        ttk.Label(
-            frame,
-            text=(
-                "In REW, open the measurement panel, choose the FSAF options you want, "
-                "and click Start there.\n\n"
-                "When the measurement has appeared in REW, click Continue here. The GUI will "
-                "set the IR window to 1 ms left / 5 ms right, rename the measurement, and move "
-                "it into the matching group."
-            ),
-            justify=tk.LEFT,
-            wraplength=470,
-        ).pack(anchor=tk.W, fill=tk.X, pady=(12, 0))
-
-        buttons = ttk.Frame(frame)
-        buttons.pack(side=tk.BOTTOM, fill=tk.X, pady=(18, 0))
-        ttk.Button(buttons, text="Cancel", command=lambda: self._cancel_manual_fsaf(dialog)).pack(side=tk.RIGHT)
-        ttk.Button(buttons, text="Continue", command=lambda: self._continue_manual_fsaf(dialog)).pack(
-            side=tk.RIGHT, padx=(0, 8)
-        )
-
-    def _cancel_manual_fsaf(self, dialog: tk.Toplevel) -> None:
-        dialog.destroy()
-        self.progress.stop()
-        self.progress.configure(mode="determinate", value=100)
-        self.status_var.set("Ready")
-        self._set_signal_buttons_enabled(True)
-
-    def _continue_manual_fsaf(self, dialog: tk.Toplevel) -> None:
-        dialog.destroy()
-        self.status_var.set("Finishing manual FSAF measurement...")
-        worker = threading.Thread(target=self._fsaf_worker, daemon=True)
         worker.start()
 
     def _run_signal_check(
@@ -261,30 +255,24 @@ class RewAutomationApp(tk.Tk):
 
     def _sweep_worker(self) -> None:
         try:
-            result = run_frequency_sweep(self.client, driver_name=DEFAULT_DRIVER_NAME)
-        except Exception as exc:
-            self.after(0, self._level_check_failed, exc)
-            return
-        self.after(0, self._sweep_finished, result)
-
-    def _fsaf_worker(self) -> None:
-        try:
-            if self.fsaf_snapshot is None:
-                raise RuntimeError("No FSAF measurement snapshot was captured.")
-            result = finish_manual_fsaf_measurement(
+            result = run_frequency_sweep(
                 self.client,
-                previous_ids=self.fsaf_snapshot,
+                start_hz=DEFAULT_SWEEP_START_HZ,
+                end_hz=DEFAULT_SWEEP_END_HZ,
+                level_dbfs=DEFAULT_SWEEP_LEVEL_DBFS,
                 driver_name=DEFAULT_DRIVER_NAME,
             )
         except Exception as exc:
             self.after(0, self._level_check_failed, exc)
             return
-        self.after(0, self._fsaf_finished, result)
+        self.after(0, self._sweep_finished, result)
 
     def _level_check_finished(self, result: LevelCheckResult) -> None:
         self.progress.stop()
         self.progress.configure(mode="determinate", value=100)
         self.status_var.set("Ready")
+        if self.current_signal_label == "pink noise":
+            self.last_pink_a_weighted_spl = result.rta_rms_a_weighted_spl
         self.level_result_var.set(_format_level_check(result))
         self._set_signal_buttons_enabled(True)
 
@@ -293,13 +281,6 @@ class RewAutomationApp(tk.Tk):
         self.progress.configure(mode="determinate", value=100)
         self.status_var.set("Ready")
         self.level_result_var.set(_format_sweep_result(result))
-        self._set_signal_buttons_enabled(True)
-
-    def _fsaf_finished(self, result: FsafResult) -> None:
-        self.progress.stop()
-        self.progress.configure(mode="determinate", value=100)
-        self.status_var.set("Ready")
-        self.level_result_var.set(_format_fsaf_result(result))
         self._set_signal_buttons_enabled(True)
 
     def _level_check_failed(self, exc: Exception) -> None:
@@ -317,6 +298,8 @@ class RewAutomationApp(tk.Tk):
         state = "!disabled" if enabled else "disabled"
         for button in self.signal_buttons:
             button.state([state])
+        if enabled and self.last_pink_a_weighted_spl is None:
+            self.cal_spl_button.state(["disabled"])
 
     def _connect_to_rew(self) -> bool:
         while True:
@@ -405,6 +388,12 @@ def _format_level_check(result: LevelCheckResult) -> str:
     ]
     if not result.channels:
         lines.append("No input level samples were returned by REW.")
+    if result.rta_rms_a_weighted_spl is not None:
+        lines.append(f"RTA RMS A-weighted: {result.rta_rms_a_weighted_spl:.1f} dB SPL")
+    if result.rta_rms_spl is not None:
+        lines.append(f"RTA RMS unweighted: {result.rta_rms_spl:.1f} dB SPL")
+    if result.rta_rms_c_weighted_spl is not None:
+        lines.append(f"RTA RMS C-weighted: {result.rta_rms_c_weighted_spl:.1f} dB SPL")
     for channel in result.channels:
         baseline = _matching_channel(result.baseline_channels, channel.channel)
         after_stop = _matching_channel(result.after_stop_channels, channel.channel)
@@ -421,26 +410,19 @@ def _format_level_check(result: LevelCheckResult) -> str:
 
 
 def _format_sweep_result(result: SweepResult) -> str:
-    return (
+    text = (
         "Sweep measurement saved.\n"
         f"Title: {result.title}\n"
         f"Group: {result.group_name}\n"
         f"Range: {result.start_hz:g} Hz to {result.end_hz:g} Hz\n"
         f"Level: {result.level_dbfs:g} dBFS\n"
         f"Sweep length: {result.sweep_length}\n"
-        f"Measurement ID: {result.measurement_id}"
-    )
-
-
-def _format_fsaf_result(result: FsafResult) -> str:
-    return (
-        "FSAF measurement saved.\n"
-        f"Title: {result.title}\n"
-        f"Group: {result.group_name}\n"
-        f"Level: {result.level_dbfs:g} dBFS\n"
         f"IR window: {result.left_window_ms:g} ms left, {result.right_window_ms:g} ms right\n"
         f"Measurement ID: {result.measurement_id}"
     )
+    if result.warnings:
+        text += "\nWarnings:\n" + "\n".join(f"- {warning}" for warning in result.warnings)
+    return text
 
 
 def _format_optional(value: float | None, unit: str) -> str:
