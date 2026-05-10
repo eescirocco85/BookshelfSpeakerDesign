@@ -1,0 +1,2016 @@
+{
+  "base_url": "http://127.0.0.1:4735",
+  "created_at_unix": 1778388920.690711,
+  "doc": {
+    "basePath": "/",
+    "interesting_definitions": {
+      "MeasSweepConfiguration": {
+        "properties": {
+          "endFrequency": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "fillSilenceWithDither": {
+            "type": "boolean"
+          },
+          "length": {
+            "type": "string"
+          },
+          "startFrequency": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "MultitoneConfiguration": {
+        "properties": {
+          "addDither": {
+            "type": "boolean"
+          },
+          "decadeSpacing": {
+            "type": "string"
+          },
+          "ditherBits": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "endFreq": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "linearSpacingHz": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "minimiseCrestFactor": {
+            "type": "boolean"
+          },
+          "octaveSpacing": {
+            "type": "string"
+          },
+          "sequenceLength": {
+            "type": "string"
+          },
+          "spacing": {
+            "type": "string"
+          },
+          "spectrum": {
+            "type": "string"
+          },
+          "startFreq": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "MultitoneDetails": {
+        "properties": {
+          "crestFactordB": {
+            "format": "double",
+            "type": "number"
+          },
+          "firstFreq": {
+            "format": "double",
+            "type": "number"
+          },
+          "kurtosis": {
+            "format": "double",
+            "type": "number"
+          },
+          "lastFreq": {
+            "format": "double",
+            "type": "number"
+          },
+          "numTones": {
+            "format": "int32",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "RTAConfiguration": {
+        "properties": {
+          "adjustRTALevels": {
+            "type": "boolean"
+          },
+          "averaging": {
+            "type": "string"
+          },
+          "calcDistortionEnabled": {
+            "type": "boolean"
+          },
+          "fftLength": {
+            "type": "string"
+          },
+          "fundamentalFromSineGen": {
+            "type": "boolean"
+          },
+          "maximumOverlap": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string"
+          },
+          "restartCaptureOnGeneratorChange": {
+            "type": "boolean"
+          },
+          "smoothing": {
+            "type": "string"
+          },
+          "stopAt": {
+            "type": "boolean"
+          },
+          "stopAtValue": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "stopGeneratorWithRTA": {
+            "type": "boolean"
+          },
+          "use64BitFFT": {
+            "type": "boolean"
+          },
+          "window": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "RTADistortion": {
+        "properties": {
+          "DFD2": {
+            "$ref": "#/definitions/Value"
+          },
+          "DFD3": {
+            "$ref": "#/definitions/Value"
+          },
+          "MD2": {
+            "$ref": "#/definitions/Value"
+          },
+          "MD3": {
+            "$ref": "#/definitions/Value"
+          },
+          "averages": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "clockDeltaPPM": {
+            "format": "double",
+            "type": "number"
+          },
+          "clockDeltaPPMStable": {
+            "type": "boolean"
+          },
+          "clockPPM": {
+            "format": "double",
+            "type": "number"
+          },
+          "coherentAveraging": {
+            "type": "boolean"
+          },
+          "crossCorrAveraging": {
+            "type": "boolean"
+          },
+          "d2H": {
+            "$ref": "#/definitions/Value"
+          },
+          "d2L": {
+            "$ref": "#/definitions/Value"
+          },
+          "d2Percent": {
+            "format": "double",
+            "type": "number"
+          },
+          "d3H": {
+            "$ref": "#/definitions/Value"
+          },
+          "d3L": {
+            "$ref": "#/definitions/Value"
+          },
+          "d3Percent": {
+            "format": "double",
+            "type": "number"
+          },
+          "d4H": {
+            "$ref": "#/definitions/Value"
+          },
+          "d4L": {
+            "$ref": "#/definitions/Value"
+          },
+          "d5H": {
+            "$ref": "#/definitions/Value"
+          },
+          "d5L": {
+            "$ref": "#/definitions/Value"
+          },
+          "dBFSAWeightedNandD": {
+            "format": "double",
+            "type": "number"
+          },
+          "distortionHPHz": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "distortionLPHz": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "enob": {
+            "format": "double",
+            "type": "number"
+          },
+          "firstHigherHarmonic": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "fundamentalFrequency": {
+            "format": "double",
+            "type": "number"
+          },
+          "fundamentalLevel": {
+            "$ref": "#/definitions/Value"
+          },
+          "fundamentaldBFS": {
+            "format": "double",
+            "type": "number"
+          },
+          "gaindB": {
+            "format": "double",
+            "type": "number"
+          },
+          "harmonicPhasesDegrees": {
+            "items": {
+              "format": "double",
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "harmonics": {
+            "items": {
+              "$ref": "#/definitions/Value"
+            },
+            "type": "array"
+          },
+          "higherHarmonicDistortion": {
+            "$ref": "#/definitions/Value"
+          },
+          "higherHarmonics": {
+            "items": {
+              "$ref": "#/definitions/Value"
+            },
+            "type": "array"
+          },
+          "imd": {
+            "$ref": "#/definitions/Value"
+          },
+          "imdDescription": {
+            "type": "string"
+          },
+          "imdF1": {
+            "format": "double",
+            "type": "number"
+          },
+          "imdF2": {
+            "format": "double",
+            "type": "number"
+          },
+          "imdF3": {
+            "format": "double",
+            "type": "number"
+          },
+          "imdPowerPercent": {
+            "format": "double",
+            "type": "number"
+          },
+          "imdRef": {
+            "format": "double",
+            "type": "number"
+          },
+          "imdReference": {
+            "type": "string"
+          },
+          "lastHigherHarmonic": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "nAndNHD": {
+            "format": "double",
+            "type": "number"
+          },
+          "nanotime": {
+            "format": "int64",
+            "type": "integer"
+          },
+          "rmsNandNHDdBFS": {
+            "format": "double",
+            "type": "number"
+          },
+          "snrdB": {
+            "format": "double",
+            "type": "number"
+          },
+          "tdPlusN": {
+            "$ref": "#/definitions/Value"
+          },
+          "tdPlusNRef": {
+            "format": "double",
+            "type": "number"
+          },
+          "thd": {
+            "$ref": "#/definitions/Value"
+          },
+          "thdHarmonics": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "thdPlusN": {
+            "$ref": "#/definitions/Value"
+          },
+          "totalSamplesProcessed": {
+            "format": "int64",
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "RTADistortionConfiguration": {
+        "properties": {
+          "distortionUnit": {
+            "type": "string"
+          },
+          "enableHighPass": {
+            "type": "boolean"
+          },
+          "enableLowPass": {
+            "type": "boolean"
+          },
+          "highPass": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "highlightFundamental": {
+            "type": "boolean"
+          },
+          "lowPass": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "manualFundamentalVrms": {
+            "format": "double",
+            "type": "number"
+          },
+          "monitorClockRateMatch": {
+            "type": "boolean"
+          },
+          "showHarmonicPhase": {
+            "type": "boolean"
+          },
+          "showNoteName": {
+            "type": "boolean"
+          },
+          "useAES17StandardNotch": {
+            "type": "boolean"
+          },
+          "useCoherentAveraging": {
+            "type": "boolean"
+          },
+          "useCrossCorrelationAveraging": {
+            "type": "boolean"
+          },
+          "useManualFundamental": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "SteppedFFTConfiguration": {
+        "properties": {
+          "averages": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "fftLength": {
+            "type": "string"
+          },
+          "maximumOverlap": {
+            "type": "string"
+          },
+          "window": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "SteppedFreqSpan": {
+        "properties": {
+          "endFreq": {
+            "format": "double",
+            "type": "number"
+          },
+          "ppo": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "startFreq": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "SteppedLevelSpan": {
+        "properties": {
+          "endLevel": {
+            "format": "double",
+            "type": "number"
+          },
+          "startLevel": {
+            "format": "double",
+            "type": "number"
+          },
+          "step": {
+            "format": "double",
+            "type": "number"
+          }
+        },
+        "type": "object"
+      },
+      "SteppedOptions": {
+        "properties": {
+          "captureSpectrum": {
+            "type": "boolean"
+          },
+          "distortionLimitPercent": {
+            "format": "double",
+            "type": "number"
+          },
+          "reduceStepIfDistortionLimitHit": {
+            "type": "boolean"
+          },
+          "silenceIntervalSeconds": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "stopAtDistortionLimit": {
+            "type": "boolean"
+          },
+          "stopForHeavyClipping": {
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "ThreeToneConfiguration": {
+        "properties": {
+          "addDither": {
+            "type": "boolean"
+          },
+          "customF1": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customF2": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customF3": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "ditherBits": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "TwoToneConfiguration": {
+        "properties": {
+          "addDither": {
+            "type": "boolean"
+          },
+          "customF1": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customF2": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "customRatio": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "ditherBits": {
+            "format": "int32",
+            "type": "integer"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "path_count": 379,
+    "paths": [
+      "/alignment-tool/aligned-frequency-response",
+      "/alignment-tool/command",
+      "/alignment-tool/commands",
+      "/alignment-tool/delay-b",
+      "/alignment-tool/filtered-impulse-response-a",
+      "/alignment-tool/filtered-impulse-response-b",
+      "/alignment-tool/frequency",
+      "/alignment-tool/gain-a",
+      "/alignment-tool/gain-b",
+      "/alignment-tool/index-a",
+      "/alignment-tool/index-b",
+      "/alignment-tool/invert-a",
+      "/alignment-tool/invert-b",
+      "/alignment-tool/max-negative-delay",
+      "/alignment-tool/max-positive-delay",
+      "/alignment-tool/mode",
+      "/alignment-tool/modes",
+      "/alignment-tool/remove-time-delay",
+      "/alignment-tool/result",
+      "/alignment-tool/uuid-a",
+      "/alignment-tool/uuid-b",
+      "/application/blocking",
+      "/application/command",
+      "/application/commands",
+      "/application/cursor-x-main",
+      "/application/cursor-x-overlay",
+      "/application/errors",
+      "/application/errors/subscribe",
+      "/application/errors/subscribers",
+      "/application/errors/unsubscribe",
+      "/application/graph-limits-main",
+      "/application/graph-limits-overlay",
+      "/application/graph-main",
+      "/application/graph-main/choices",
+      "/application/graph-overlay",
+      "/application/graph-overlay/choices",
+      "/application/image-capture-settings-main",
+      "/application/image-capture-settings-overlay",
+      "/application/inhibit-graph-updates",
+      "/application/last-error",
+      "/application/last-warning",
+      "/application/linlogfreq-main",
+      "/application/linlogfreq-main/choices",
+      "/application/linlogfreq-overlay",
+      "/application/linlogfreq-overlay/choices",
+      "/application/logging",
+      "/application/show-main",
+      "/application/show-overlay",
+      "/application/warnings",
+      "/application/warnings/subscribe",
+      "/application/warnings/subscribers",
+      "/application/warnings/unsubscribe",
+      "/application/y-axis-main",
+      "/application/y-axis-main/units",
+      "/application/y-axis-overlay",
+      "/application/y-axis-overlay/units",
+      "/audio/asio/command",
+      "/audio/asio/commands",
+      "/audio/asio/device",
+      "/audio/asio/devices",
+      "/audio/asio/format",
+      "/audio/asio/input",
+      "/audio/asio/inputs",
+      "/audio/asio/last-input",
+      "/audio/asio/output",
+      "/audio/asio/outputs",
+      "/audio/asio/ref-input",
+      "/audio/asio/ref-output",
+      "/audio/asio/secondary-output",
+      "/audio/asio/secondary-output-enable",
+      "/audio/configuration",
+      "/audio/driver",
+      "/audio/driver-types",
+      "/audio/input-bit-mask",
+      "/audio/input-cal",
+      "/audio/input-options",
+      "/audio/java/format",
+      "/audio/java/input",
+      "/audio/java/input-channel",
+      "/audio/java/input-device",
+      "/audio/java/input-devices",
+      "/audio/java/inputs",
+      "/audio/java/last-input-channel",
+      "/audio/java/num-input-channels",
+      "/audio/java/num-input-device-channels",
+      "/audio/java/num-output-device-channels",
+      "/audio/java/output",
+      "/audio/java/output-channel",
+      "/audio/java/output-channel-mapping",
+      "/audio/java/output-channels",
+      "/audio/java/output-device",
+      "/audio/java/output-devices",
+      "/audio/java/outputs",
+      "/audio/java/ref-input-channel",
+      "/audio/java/ref-output-channel",
+      "/audio/java/ref-output-channels",
+      "/audio/java/stereo-only",
+      "/audio/output-cal",
+      "/audio/output-options",
+      "/audio/samplerate",
+      "/audio/samplerates",
+      "/audio/status",
+      "/eq/command",
+      "/eq/commands",
+      "/eq/crossover-types",
+      "/eq/default-equaliser",
+      "/eq/default-room-curve-settings",
+      "/eq/default-target-level",
+      "/eq/default-target-settings",
+      "/eq/equalisers",
+      "/eq/house-curve",
+      "/eq/house-curve-log-interpolation",
+      "/eq/manufacturers",
+      "/eq/match-target-settings",
+      "/eq/slopes",
+      "/eq/subscribe",
+      "/eq/subscribers",
+      "/eq/target-shapes",
+      "/eq/unsubscribe",
+      "/generator/command",
+      "/generator/commands",
+      "/generator/frequency",
+      "/generator/full-scale-vrms",
+      "/generator/invert-second-output",
+      "/generator/level",
+      "/generator/level/units",
+      "/generator/protection",
+      "/generator/signal",
+      "/generator/signal/command",
+      "/generator/signal/commands",
+      "/generator/signal/configuration",
+      "/generator/signals",
+      "/generator/signals/cea-burst/configuration",
+      "/generator/signals/dualtone/configuration",
+      "/generator/signals/dualtone/configuration/types",
+      "/generator/signals/fsafnoise/configuration",
+      "/generator/signals/linearsweep/configuration",
+      "/generator/signals/logsweep/configuration",
+      "/generator/signals/logsweep/configuration/fade-fractions",
+      "/generator/signals/meassweep/configuration",
+      "/generator/signals/meassweep/configuration/sweep-lengths",
+      "/generator/signals/multitone/configuration",
+      "/generator/signals/multitone/configuration/decade-spacings",
+      "/generator/signals/multitone/configuration/octave-spacings",
+      "/generator/signals/multitone/configuration/sequence-lengths",
+      "/generator/signals/multitone/configuration/spacing-types",
+      "/generator/signals/multitone/configuration/spectrum-types",
+      "/generator/signals/multitone/details",
+      "/generator/signals/pinknoise/configuration",
+      "/generator/signals/pinknoise/configuration/types",
+      "/generator/signals/pinkpn/configuration",
+      "/generator/signals/pinkpn/configuration/sequence-lengths",
+      "/generator/signals/pinkpn/configuration/types",
+      "/generator/signals/sawtooth/configuration",
+      "/generator/signals/sine/configuration",
+      "/generator/signals/sine/distortion",
+      "/generator/signals/square/configuration",
+      "/generator/signals/toneburst/configuration",
+      "/generator/signals/tripletone/configuration",
+      "/generator/signals/tripletone/configuration/types",
+      "/generator/signals/whitenoise/configuration",
+      "/generator/signals/whitenoise/configuration/types",
+      "/generator/signals/whitepn/configuration",
+      "/generator/signals/whitepn/configuration/sequence-lengths",
+      "/generator/signals/whitepn/configuration/types",
+      "/generator/status",
+      "/groups",
+      "/groups/subscribe",
+      "/groups/subscribers",
+      "/groups/unsubscribe",
+      "/groups/{id}",
+      "/groups/{id}/measurements",
+      "/import/frequency-response",
+      "/import/frequency-response-data",
+      "/import/impulse-response",
+      "/import/impulse-response-data",
+      "/import/rta-file",
+      "/import/rta-file/progress",
+      "/import/rta-file/save-options",
+      "/import/subscribe",
+      "/import/subscribers",
+      "/import/sweep-recordings/response",
+      "/import/sweep-recordings/stimulus",
+      "/import/unsubscribe",
+      "/input-levels/command",
+      "/input-levels/commands",
+      "/input-levels/last-levels",
+      "/input-levels/subscribe",
+      "/input-levels/subscribers",
+      "/input-levels/units",
+      "/input-levels/unsubscribe",
+      "/measure/align-individual-measurements",
+      "/measure/average-umikx-modules",
+      "/measure/between-measurements-delay",
+      "/measure/capture-noise-floor",
+      "/measure/command",
+      "/measure/commands",
+      "/measure/end-level",
+      "/measure/file-playback-stimulus",
+      "/measure/fill-silence-with-dither",
+      "/measure/filtered-spl-filter-source",
+      "/measure/filtered-spl-filter-source-uuid",
+      "/measure/invert-second-output",
+      "/measure/level",
+      "/measure/level/units",
+      "/measure/lfe-end-frequency",
+      "/measure/lfe-minus-10-db",
+      "/measure/measurement-mode",
+      "/measure/measurement-mode/choices",
+      "/measure/naming",
+      "/measure/naming/date-time-formats",
+      "/measure/naming/naming-options",
+      "/measure/no-overall-average",
+      "/measure/notes",
+      "/measure/number-of-repetitions",
+      "/measure/play-dither-before-sweep",
+      "/measure/playback-mode",
+      "/measure/playback-mode/choices",
+      "/measure/preserve-relative-timing",
+      "/measure/protection-options",
+      "/measure/save-inputs-individually",
+      "/measure/sequential-channels",
+      "/measure/sequential-choices",
+      "/measure/start-delay",
+      "/measure/start-level",
+      "/measure/subscribe",
+      "/measure/subscribers",
+      "/measure/sweep/configuration",
+      "/measure/sweep/configuration/sweep-lengths",
+      "/measure/sweep/repetitions",
+      "/measure/timing/offset",
+      "/measure/timing/reference",
+      "/measure/timing/reference/acoustic/trim",
+      "/measure/timing/reference/choices",
+      "/measure/timing/reference/looback-cal/merge",
+      "/measure/timing/reference/none/tzero",
+      "/measure/timing/reference/none/tzero/choices",
+      "/measure/timing/reference/wired/trim",
+      "/measure/unsubscribe",
+      "/measure/use-group-averages",
+      "/measure/use-lfe-end-frequency",
+      "/measure/vector-average-individual-measurements",
+      "/measurements",
+      "/measurements/arithmetic-functions",
+      "/measurements/command",
+      "/measurements/commands",
+      "/measurements/distortion-ppo-choices",
+      "/measurements/distortion-units",
+      "/measurements/eq/commands",
+      "/measurements/frequency-response/smoothing-choices",
+      "/measurements/frequency-response/units",
+      "/measurements/impulse-response/units",
+      "/measurements/max-measurements",
+      "/measurements/process-commands",
+      "/measurements/process-measurements",
+      "/measurements/process-result",
+      "/measurements/selected",
+      "/measurements/selected-uuid",
+      "/measurements/spectrogram-amplitude-choices",
+      "/measurements/spectrogram-window-choices",
+      "/measurements/subscribe",
+      "/measurements/subscribers",
+      "/measurements/unsubscribe",
+      "/measurements/{id}",
+      "/measurements/{id}/command",
+      "/measurements/{id}/commands",
+      "/measurements/{id}/distortion",
+      "/measurements/{id}/eq/command",
+      "/measurements/{id}/eq/frequency-response",
+      "/measurements/{id}/eq/group-delay",
+      "/measurements/{id}/eq/impulse-response",
+      "/measurements/{id}/equaliser",
+      "/measurements/{id}/filters",
+      "/measurements/{id}/filters-impulse-response",
+      "/measurements/{id}/frequency-response",
+      "/measurements/{id}/group-delay",
+      "/measurements/{id}/impulse-response",
+      "/measurements/{id}/ir-windows",
+      "/measurements/{id}/room-curve-settings",
+      "/measurements/{id}/rt60",
+      "/measurements/{id}/rt60-settings",
+      "/measurements/{id}/target-level",
+      "/measurements/{id}/target-response",
+      "/measurements/{id}/target-settings",
+      "/roomsim/absorptions",
+      "/roomsim/frequency-response",
+      "/roomsim/head-position",
+      "/roomsim/length-units",
+      "/roomsim/mic-positions",
+      "/roomsim/mic-posn-offsets",
+      "/roomsim/options",
+      "/roomsim/room-is-sealed",
+      "/roomsim/room-size",
+      "/roomsim/source-names",
+      "/roomsim/sources",
+      "/roomsim/{src}/configuration",
+      "/roomsim/{src}/frequency-response",
+      "/roomsim/{src}/position",
+      "/rta/appearance-configuration",
+      "/rta/appearance-configuration/cea-limits",
+      "/rta/appearance-configuration/noise-curves",
+      "/rta/appearance-configuration/peak-decays",
+      "/rta/appearance-configuration/peak-holds",
+      "/rta/appearance-configuration/update-intervals",
+      "/rta/captured-data",
+      "/rta/captured-data/subscribe",
+      "/rta/captured-data/subscribers",
+      "/rta/captured-data/units",
+      "/rta/captured-data/unsubscribe",
+      "/rta/captured-peak-data",
+      "/rta/captured-peak-data/subscribe",
+      "/rta/captured-peak-data/subscribers",
+      "/rta/captured-peak-data/unsubscribe",
+      "/rta/command",
+      "/rta/commands",
+      "/rta/configuration",
+      "/rta/configuration/averaging-choices",
+      "/rta/configuration/fft-lengths",
+      "/rta/configuration/modes",
+      "/rta/configuration/overlap-choices",
+      "/rta/configuration/smoothing-choices",
+      "/rta/configuration/window-choices",
+      "/rta/cursor-x",
+      "/rta/distortion",
+      "/rta/distortion-configuration",
+      "/rta/distortion-configuration/distortion-units",
+      "/rta/distortion/relative-units",
+      "/rta/distortion/subscribe",
+      "/rta/distortion/subscribers",
+      "/rta/distortion/units",
+      "/rta/distortion/unsubscribe",
+      "/rta/graph-limits",
+      "/rta/image-capture-settings",
+      "/rta/levels",
+      "/rta/levels/subscribe",
+      "/rta/levels/subscribers",
+      "/rta/levels/units",
+      "/rta/levels/unsubscribe",
+      "/rta/status",
+      "/rta/status/subscribe",
+      "/rta/status/subscribers",
+      "/rta/status/unsubscribe",
+      "/rta/y-axis",
+      "/rta/y-axis/units",
+      "/spl-logger/command",
+      "/spl-logger/commands",
+      "/spl-logger/configuration",
+      "/spl-meter/commands",
+      "/spl-meter/filters",
+      "/spl-meter/modes",
+      "/spl-meter/weightings",
+      "/spl-meter/{id}/command",
+      "/spl-meter/{id}/configuration",
+      "/spl-meter/{id}/levels",
+      "/spl-meter/{id}/subscribe",
+      "/spl-meter/{id}/subscribers",
+      "/spl-meter/{id}/unsubscribe",
+      "/stepped-measurement/command",
+      "/stepped-measurement/commands",
+      "/stepped-measurement/fft-configuration",
+      "/stepped-measurement/fft-configuration/averaging-choices",
+      "/stepped-measurement/fft-configuration/fft-lengths",
+      "/stepped-measurement/fft-configuration/overlap-choices",
+      "/stepped-measurement/fft-configuration/window-choices",
+      "/stepped-measurement/frequency-span",
+      "/stepped-measurement/imd-stimuli",
+      "/stepped-measurement/level-span",
+      "/stepped-measurement/options",
+      "/stepped-measurement/ppo-values",
+      "/stepped-measurement/progress",
+      "/stepped-measurement/progress/subscribe",
+      "/stepped-measurement/progress/subscribers",
+      "/stepped-measurement/progress/unsubscribe",
+      "/stepped-measurement/results/subscribe",
+      "/stepped-measurement/results/subscribers",
+      "/stepped-measurement/results/unsubscribe",
+      "/stepped-measurement/type",
+      "/stepped-measurement/types",
+      "/version"
+    ],
+    "swagger": "2.0",
+    "title": "REW REST API",
+    "version": "0.9.4"
+  },
+  "endpoints": {
+    "/application/blocking": {
+      "data": false,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/application/commands": {
+      "data": [
+        "Shutdown",
+        "Clear command in progress",
+        "Save main graph image",
+        "Save overlay graph image",
+        "Copy main graph to clipboard",
+        "Copy overlay graph to clipboard",
+        "Fit main graph axes to data",
+        "Fit overlay graph axes to data",
+        "Fit main graph Y axis to data",
+        "Fit overlay graph Y axis to data"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/application/errors": {
+      "data": [],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/application/inhibit-graph-updates": {
+      "data": false,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/application/logging": {
+      "data": false,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/application/warnings": {
+      "data": [],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/configuration": {
+      "data": {
+        "treat32Bitas24Bit": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/driver": {
+      "data": {
+        "driver": "Java"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/driver-types": {
+      "data": [
+        "Java",
+        "ASIO"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/input-cal": {
+      "data": {
+        "calDataAllInputs": {
+          "calFilePath": "",
+          "dBFSAt94dBSPL": -22.9897,
+          "fullScaleSineVrms": 1.0
+        },
+        "currentInputSelection": "Default Device Default Input",
+        "inputDeviceIsCWeighted": false,
+        "separateCalFileForEachInput": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/output-cal": {
+      "data": {
+        "calData": {
+          "calFilePath": "",
+          "sampleRate": {
+            "unit": "Hz",
+            "value": 96000.0
+          }
+        },
+        "currentOutputSelection": "Default Device Default Output"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/samplerate": {
+      "data": {
+        "unit": "Hz",
+        "value": 96000.0
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/samplerates": {
+      "data": [
+        {
+          "unit": "Hz",
+          "value": 44100.0
+        },
+        {
+          "unit": "Hz",
+          "value": 48000.0
+        },
+        {
+          "unit": "Hz",
+          "value": 88200.0
+        },
+        {
+          "unit": "Hz",
+          "value": 96000.0
+        },
+        {
+          "unit": "Hz",
+          "value": 176400.0
+        },
+        {
+          "unit": "Hz",
+          "value": 192000.0
+        }
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/commands": {
+      "data": [
+        "Play",
+        "Stop"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/frequency": {
+      "data": {
+        "unit": "Hz"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/level": {
+      "data": {
+        "unit": "dBFS",
+        "value": -15.0
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/level/units": {
+      "data": [
+        "dBu",
+        "dBV",
+        "V",
+        "dBFS"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/protection": {
+      "data": {
+        "clippingAbort": true,
+        "dBSPLLimit": 100,
+        "splLimitAbort": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/signals": {
+      "data": [
+        "sine",
+        "square",
+        "sawtooth",
+        "toneburst",
+        "cea-burst",
+        "j-test",
+        "dualtone",
+        "tripletone",
+        "quadtone",
+        "multitone",
+        "pinknoise",
+        "whitenoise",
+        "pinkpn",
+        "whitepn",
+        "linearsweep",
+        "logsweep",
+        "meassweep",
+        "fsafnoise"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/generator/status": {
+      "data": {
+        "enabled": true,
+        "level": -15.0,
+        "levelUnit": "dBFS",
+        "playing": false,
+        "signal": "multitone"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/input-levels/commands": {
+      "data": [
+        "Start",
+        "Stop"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/input-levels/units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "W"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/commands": {
+      "data": [
+        "SPL",
+        "Filtered SPL",
+        "Impedance",
+        "Impedance open cal",
+        "Impedance short cal",
+        "Impedance ref cal",
+        "Check levels",
+        "Cancel"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/level": {
+      "data": {
+        "unit": "dBFS",
+        "value": -10.0
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/level/units": {
+      "data": [
+        "dBu",
+        "dBV",
+        "V",
+        "dBFS"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/measurement-mode": {
+      "data": "Single",
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/measurement-mode/choices": {
+      "data": [
+        "Single",
+        "Repeated",
+        "Sequential",
+        "Ramped"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/playback-mode": {
+      "data": "From REW",
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/playback-mode/choices": {
+      "data": [
+        "From REW",
+        "From file",
+        "8c"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/protection-options": {
+      "data": {
+        "clippingAbort": true,
+        "dBSPLLimit": 100,
+        "splLimitAbort": false,
+        "warnForHighDistortion": true,
+        "warnForLowLevels": true,
+        "warnForLowSNR": true
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/sweep/configuration": {
+      "data": {
+        "endFrequency": 5000,
+        "fillSilenceWithDither": false,
+        "length": "512k",
+        "startFrequency": 30
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measure/sweep/repetitions": {
+      "data": 1,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measurements": {
+      "data": {},
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measurements/distortion-ppo-choices": {
+      "data": [
+        1,
+        2,
+        3,
+        6,
+        12,
+        24,
+        48,
+        96
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measurements/distortion-units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "W",
+        "dBr",
+        "percent"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measurements/frequency-response/smoothing-choices": {
+      "data": [
+        "1/1",
+        "1/2",
+        "1/3",
+        "1/6",
+        "1/12",
+        "1/24",
+        "1/48",
+        "Var",
+        "Psy",
+        "ERB",
+        "None"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/measurements/frequency-response/units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBr",
+        "V/V",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "V/\u221aHz",
+        "W",
+        "ohm"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/appearance-configuration": {
+      "data": {
+        "ceaMaxSPLLimitType": "CEA 2010",
+        "dBWRefResistance": 8.0,
+        "noiseCurveType": "NC",
+        "peakDecaydBPerSecond": 3,
+        "peakHoldSeconds": 2,
+        "showHearingThreshold": false,
+        "showNoiseCurves": false,
+        "showPeakSPLForToneBursts": false,
+        "updateInterval": 1,
+        "useBarsOnRTA": true,
+        "useBarsOnSpectrum": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/captured-data/units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "V/\u221aHz",
+        "W",
+        "dBc"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/commands": {
+      "data": [
+        "Start",
+        "Stop",
+        "Reset averaging",
+        "Save current",
+        "Save peak",
+        "Save both",
+        "Copy graph to clipboard",
+        "Save graph image"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/configuration": {
+      "data": {
+        "adjustRTALevels": true,
+        "averaging": "Exponential 0.50",
+        "calcDistortionEnabled": false,
+        "fftLength": "128k",
+        "fundamentalFromSineGen": true,
+        "maximumOverlap": "87.5%",
+        "mode": "Spectrum",
+        "restartCaptureOnGeneratorChange": true,
+        "smoothing": "None",
+        "stopAt": false,
+        "stopAtValue": 100,
+        "stopGeneratorWithRTA": false,
+        "use64BitFFT": true,
+        "window": "Hann"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/distortion-configuration": {
+      "data": {
+        "distortionUnit": "percent",
+        "enableHighPass": false,
+        "enableLowPass": false,
+        "highPass": 20,
+        "highlightFundamental": false,
+        "lowPass": 20000,
+        "manualFundamentalVrms": 1.0,
+        "monitorClockRateMatch": true,
+        "showHarmonicPhase": false,
+        "showNoteName": false,
+        "useAES17StandardNotch": false,
+        "useCoherentAveraging": false,
+        "useCrossCorrelationAveraging": false,
+        "useManualFundamental": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/distortion/relative-units": {
+      "data": [
+        "percent",
+        "dB"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/distortion/units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "V/\u221aHz",
+        "W",
+        "dBc"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/levels/units": {
+      "data": [
+        "SPL",
+        "dBFS",
+        "dBu",
+        "dBV",
+        "dBW",
+        "V",
+        "V/\u221aHz",
+        "W",
+        "dBc"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/rta/status": {
+      "data": {
+        "enabled": true,
+        "running": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/1/configuration": {
+      "data": {
+        "filter": "Slow",
+        "highPassActive": false,
+        "mode": "SPL",
+        "rollingLeqActive": false,
+        "rollingLeqMinutes": 1,
+        "weighting": "Z"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/1/levels": {
+      "data": {
+        "elapsedTime": 0.0,
+        "filter": "Slow",
+        "isRollingLeq": false,
+        "leq": -180.0,
+        "leq10m": -180.0,
+        "leq1m": -180.0,
+        "meterNumber": 1,
+        "rollingLeqMinutes": 1.0,
+        "sel": -180.0,
+        "spl": -180.0,
+        "weighting": "Z"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/commands": {
+      "data": [
+        "Start",
+        "Stop",
+        "Reset",
+        "Open",
+        "Close",
+        "Calibrate"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/filters": {
+      "data": [
+        "Fast",
+        "Slow"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/modes": {
+      "data": [
+        "SPL",
+        "LEQ",
+        "SEL"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/spl-meter/weightings": {
+      "data": [
+        "A",
+        "C",
+        "Z"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/commands": {
+      "data": [
+        "Start",
+        "Stop",
+        "Cancel",
+        "Pause",
+        "Resume",
+        "Back"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/fft-configuration": {
+      "data": {
+        "averages": 2,
+        "fftLength": "64k",
+        "maximumOverlap": "0%",
+        "window": "Rectangular"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/frequency-span": {
+      "data": {
+        "endFreq": 20000.0,
+        "ppo": 3,
+        "startFreq": 20.0
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/level-span": {
+      "data": {
+        "endLevel": 0.0,
+        "startLevel": -80.0,
+        "step": 10.0
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/options": {
+      "data": {
+        "captureSpectrum": false,
+        "distortionLimitPercent": 1.0,
+        "reduceStepIfDistortionLimitHit": false,
+        "silenceIntervalSeconds": 0,
+        "stopAtDistortionLimit": true,
+        "stopForHeavyClipping": true
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/ppo-values": {
+      "data": [
+        1,
+        2,
+        3,
+        6,
+        12,
+        24,
+        48,
+        96
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/progress": {
+      "data": {
+        "message": "31 measurements remaining",
+        "point": 0,
+        "points": 31
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/type": {
+      "data": "THD vs frequency",
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/stepped-measurement/types": {
+      "data": [
+        "THD vs frequency",
+        "THD vs level",
+        "THD vs frequency & level",
+        "IMD vs level",
+        "Multitone TD+N vs level"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    }
+  },
+  "generator_signal_details": {
+    "cea-burst": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "frequency": 50.0,
+          "repeat": false
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "dualtone": {
+      "commands": {
+        "elapsed_ms": 31.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "customF1": 13000,
+          "customF2": 14000,
+          "customRatio": 1,
+          "ditherBits": 24,
+          "type": "smpte"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "fsafnoise": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "type": "white-gaussian"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "j-test": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      }
+    },
+    "linearsweep": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "durationSeconds": 10.0,
+          "endFrequency": 20000,
+          "fadeInMilliseconds": 10,
+          "fadeOutMilliseconds": 10,
+          "loop": false,
+          "startFrequency": 10
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "logsweep": {
+      "commands": {
+        "elapsed_ms": 16.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "durationSeconds": 1.0,
+          "endFrequency": 200,
+          "fadeInFraction": "None",
+          "fadeOutFraction": "None",
+          "loop": true,
+          "startFrequency": 30
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "meassweep": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "endFrequency": 5000,
+          "fillSilenceWithDither": false,
+          "length": "512k",
+          "startFrequency": 30
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "multitone": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "decadeSpacing": "1/10 decade",
+          "ditherBits": 24,
+          "endFreq": 20000,
+          "linearSpacingHz": 100,
+          "minimiseCrestFactor": true,
+          "octaveSpacing": "1/3 octave",
+          "sequenceLength": "64k",
+          "spacing": "Oct",
+          "spectrum": "Pink",
+          "startFreq": 20
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "pinknoise": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "customFilterOrder": 2,
+          "customHighCut": true,
+          "customHighCutFreq": 20000,
+          "customLowCut": true,
+          "customLowCutFreq": 10,
+          "gaussian": false,
+          "octaveCentre": 1000.0,
+          "thirdOctaveCentre": 1000.0,
+          "type": "speaker-cal"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "pinkpn": {
+      "commands": {
+        "elapsed_ms": 16.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "customFilterOrder": 0,
+          "customHighCut": true,
+          "customHighCutFreq": 20000,
+          "customLowCut": true,
+          "customLowCutFreq": 10,
+          "minimiseCrestFactor": true,
+          "octaveCentre": 1000.0,
+          "sequenceLength": "128k",
+          "thirdOctaveCentre": 1000.0,
+          "type": "full-range"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "quadtone": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      }
+    },
+    "sawtooth": {
+      "commands": {
+        "elapsed_ms": 16.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "bandLimit": true,
+          "ditherBits": 24,
+          "frequency": 100.0,
+          "invert": false
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "sine": {
+      "commands": {
+        "elapsed_ms": 15.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "addHarmonicDistortion": false,
+          "ditherBits": 24,
+          "frequency": 100.0,
+          "lockFrequencyToRTAFFT": true
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "square": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "bandLimit": false,
+          "ditherBits": 24,
+          "dutyCyclePercent": 50,
+          "frequency": 1000.0
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "toneburst": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "frequency": 100.0,
+          "period": 65536,
+          "periodUnit": "samples",
+          "repeat": true,
+          "window": "Rectangular",
+          "windowWidth": 6.5,
+          "windowWidthUnit": "cycles"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "tripletone": {
+      "commands": {
+        "elapsed_ms": 0.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "addDither": true,
+          "customF1": 70,
+          "customF2": 1000,
+          "customF3": 6820,
+          "ditherBits": 24,
+          "type": "custom"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "whitenoise": {
+      "commands": {
+        "elapsed_ms": 16.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "customFilterOrder": 2,
+          "customHighCut": true,
+          "customHighCutFreq": 20000,
+          "customLowCut": true,
+          "customLowCutFreq": 10,
+          "octaveCentre": 1000.0,
+          "thirdOctaveCentre": 1000.0,
+          "type": "full-range"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    },
+    "whitepn": {
+      "commands": {
+        "elapsed_ms": 16.0,
+        "error": "<html><body><h2>404 Not found</h2></body></html>",
+        "ok": false,
+        "status": 404
+      },
+      "configuration": {
+        "data": {
+          "customFilterOrder": 0,
+          "customHighCut": true,
+          "customHighCutFreq": 20000,
+          "customLowCut": true,
+          "customLowCutFreq": 10,
+          "minimiseCrestFactor": true,
+          "octaveCentre": 1000.0,
+          "sequenceLength": "128k",
+          "thirdOctaveCentre": 1000.0,
+          "type": "full-range"
+        },
+        "elapsed_ms": 0.0,
+        "ok": true,
+        "status": 200
+      }
+    }
+  }
+}
