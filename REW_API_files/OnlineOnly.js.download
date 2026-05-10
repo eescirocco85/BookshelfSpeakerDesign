@@ -1,0 +1,12 @@
+// script to show online-only class elements
+
+var list = document.getElementsByClassName("onlineonly");
+var i,j;
+for (i = 0; i < list.length; i++) {
+		list[i].style.fontSize = "100%";
+		list[i].style.color = "revert";
+		var HL = list[i].getElementsByTagName("A");
+		for (j = 0; j < HL.length; j++) {
+			HL[j].style.color = "revert";
+		}
+}

@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<!-- saved from url=(0068)https://www.roomeqwizard.com/help/help_en-GB/html/api.html#generator -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>API</title>
+        <link type="text/css" rel="stylesheet" href="./REW_API_files/style.css">
+    </head>
+    <body lang="en-GB" dir="LTR">
+    
+        <h2><a name="top">API</a></h2>
+
+        <p>REW has an API accessible over http at <font class="endpoint">localhost (127.0.0.1)</font>, the default 
+        port is 4735. It cannot be accessed outside the machine REW is running on. To start the API server use the button
+        on the API preferences or run REW with the <font class="cmd">-api</font> argument. On Windows with the default REW 
+        installation that could be done using
+        
+        </p><p><font class="cmd">C:\Program Files\REW\roomeqwizard.exe -api</font>
+    
+        </p><p>On macOS it could be done from a terminal using
+        
+        </p><p><font class="cmd">open -a REW.app --args -api</font>
+    
+        </p><p>To specify a different port, e.g. 4567, add <font class="cmd">-port 4567</font>. 
+        Port numbers below 1024 will be ignored. The default port will be assumed in the 
+        examples which follow. To specify a different IP address, e.g. 0.0.0.0, add
+        <font class="cmd">-host "0.0.0.0"</font>, "localhost" is the default.
+        
+        </p><p>To run REW without a GUI use the -nogui argument, but if you 
+        do that you must use the <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#application">application</a> shutdown command to 
+        close REW when done.
+        
+        </p><p>All API <font class="cmd">GET</font> methods are available whenever the API is running, allowing the
+        API to be used to retrieve data from REW. <font class="cmd">PUT</font> and <font class="cmd">POST</font>
+        are also supported by default for most endpoints, but to control REW via the API to make automated sweep measurements 
+        requires a <a href="https://www.roomeqwizard.com/upgrades.html" target="_blank">Pro upgrade license</a>.
+        
+        </p><p>The API documentation is served by swagger-ui and can be accessed by browsing to 
+        <font class="endpoint">localhost:4735</font>. The OpenAPI specification for the API can be
+        accessed at <font class="endpoint">localhost:4735/doc.json</font> or <font class="endpoint">localhost:4735/doc.yaml</font>
+        for JSON or YAML formats. Setting values using the data models can be done with <font class="cmd">POST</font>
+        or, for models with multiple fields, <font class="cmd">PUT</font>, however both methods will accept
+        data models with a subset of the defined fields.
+        
+        </p><h3><a name="examples">API usage examples</a></h3>
+
+        <div style="display:none">
+            <!-- External link launchers for the Java helpset viewer -->
+            <p>There is an example of using the API to evaluate QC pass/fail measurements at
+            <object classid="java:roomeqwizard.HelpsetExternalLinkLauncher">
+            <param name="text" value="https://github.com/audiomacgyver/rew-iqc">
+            <param name="content" value="https://github.com/audiomacgyver/rew-iqc">
+            </object>.
+
+            </p><p>There is an example of making RTA measurements through the API at
+            <object classid="java:roomeqwizard.HelpsetExternalLinkLauncher">
+            <param name="text" value="https://github.com/marionette609/rew-scripts">
+            <param name="content" value="https://github.com/marionette609/rew-scripts">
+            </object>.
+        </p></div>
+        
+        <div class="onlineonly" style="font-size: 100%; color: revert;">
+            <!-- External links for the online help -->
+            <br><br>There is an example of using the API to evaluate QC pass/fail measurements at
+            <a href="https://github.com/audiomacgyver/rew-iqc" style="color: revert;">https://github.com/audiomacgyver/rew-iqc</a><br><br>
+
+            There is an example of making RTA measurements through the API at
+            <a href="https://github.com/marionette609/rew-scripts" style="color: revert;">https://github.com/marionette609/rew-scripts</a><br><br>
+        </div>
+
+        <h3><a name="index">Index</a></h3>
+
+        <ol>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#usage">Usage</a>
+                <ul>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#blocking">Blocking behaviour for scripting</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#inhibitgraphupdates">Inhibit graph updates</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#logging">Message logging</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#arrays">Array encoding</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">Subscriptions</a></li>
+                </ul></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#application">Application</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#audio">Audio</a>
+                <ul>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#java">Java settings</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#asio">ASIO settings</a></li>
+                </ul></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#input-levels">Input levels</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#measurements">Measurements</a>
+                <ul>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#measurements-commands">Measurements commands</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#change-summary">Change measurement name or notes</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#freqresp">Frequency response</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#groupdelay">Group delay</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#impulseresp">Impulse response</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#irwindows">IR window settings</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#distortion">Distortion data</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#singlecommands">Commands for individual measurements</a>
+                    <ul>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#waterfall">Generate waterfall</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#spectrogram">Generate spectrogram</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#generateminphase">Generate minimum phase</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#minphase">Minimum or excess phase version</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#scaleir">Scale IR</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#smooth">Smooth</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#offsettzero">Offset t=0</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#addsploffset">Add SPL offset</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#unwrap">Unwrap phase</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#rt60">Generate RT60</a></li>
+                    </ul></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#process-measurements">Processing measurements</a>
+                    <ul>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#alignspl">Align SPL</a></li>
+                        <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#arithmetic">Arithmetic</a></li>
+                    </ul></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#eqandfilters">EQ and filters</a></li>
+                </ul></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#groups">Groups</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#measure">Measure</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#alignment-tool">Alignment tool</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#eq">EQ defaults</a>
+                <ul><li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#eqprogress">EQ matching progress</a></li>
+                </ul></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#generator">Generator</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#spl-meter">SPL meter</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#spl-logger">SPL logger</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#rta">RTA</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#stepped-measurement">Stepped measurement</a></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#import">Import</a>
+                <ul>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importfrequencyresponse">Import frequency response</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importimpulseresponse">Import impulse response</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importfreqresponsedata">Import frequency response data</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importimpulseresponsedata">Import impulse response data</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importrtafile">Import RTA file</a></li>
+                <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#importsweeprecordings">Import sweep recordings</a></li>
+                </ul></li>
+            <li><a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#roomsim">Room simulator</a></li>
+        </ol>
+        
+        <h3><a name="usage">Usage</a></h3>
+
+        <h4><a name="blocking">Blocking behaviour for scripting</a></h4>
+        
+        <p>By default, the response to a <font class="cmd">POST</font> to an endpoint that runs a command may be 200 (OK)
+        or 202 (Accepted). If the command can be completed quickly there will be an OK response. If it will 
+        take time complete an Accepted response is issued. An attempt to <font class="cmd">POST</font> to an
+        endpoint that would run another command while one is already in progress will return Bad Request, with 
+        a message that indicates which command is in progress. Commands that take time to complete will generally 
+        have an optional resultUrl which REW will <font class="cmd">POST</font> to when the command completes,
+        but that requires the caller to run a server. Alternatively there are endpoints which can be polled to 
+        monitor progress, such as the <font class="endpoint">/measurements/process-result</font> endpoint. A numeric
+        ID is assigned to each command to allow results to be linked to the specific command that generated them
+        when the same command is used repeatedly.
+        
+        </p><p>To avoid having to poll the API or to run a server a blocking mode can be enabled by <font class="cmd">POST</font>
+        to <font class="endpoint">/application/blocking</font>. The endpoint accepts a boolean to enable or disable
+        the blocking behaviour. When blocking is enabled the API will not respond until the requested action is 
+        completed, but that may mean the response is delayed by several seconds for long-running tasks. The response 
+        will include the result of the action as a ProcessResult. 
+
+        </p><h4><a name="inhibitgraphupdates">Inhibit graph updates</a></h4>
+
+        <p>An <font class="endpoint">/application/inhibit-graph-updates</font> endpoint flag can be set to inhibit any 
+        graph updates. This may be useful when running actions which delete or modify measurements 
+        to prevent graphs being updated with partial data or errors caused by trying to plot data 
+        which is no longer available.
+
+        </p><h4><a name="logging">Message logging</a></h4>
+
+        <p>An <font class="endpoint">/application/logging</font> endpoint flag can be set to log API 
+        messages to rew_output.txt in the REW log files folder. This may be useful when debugging.
+
+        </p><h4><a name="arrays">Array encoding</a></h4>
+        
+        <p>Arrays are transferred as Base64-encoded strings generated from the raw bytes of the 32-bit float
+        sample values. Note that byte order is big-endian, data may need to be byte-swapped before encode
+        or after decode. Base64 decoding is well supported in programming languages, here is how to recover the
+        arrays in Java:<br>
+</p><pre>    public static float[] decodeArray(String base64Encoded) {
+        byte[] bytes = Base64.getDecoder().decode(base64Encoded);
+        FloatBuffer buf = ByteBuffer.wrap(bytes).asFloatBuffer();
+        float[] floatArray = new float[buf.limit()];
+        buf.get(floatArray);
+        return floatArray;
+    }
+</pre>
+        
+        <p>Here is some example data to validate Base64 decoding:
+</p><pre>Base64 string: PgAAAD6AAAA+wAAAPwAAAA==
+Float array:   {0.125f,  0.25f,  0.375f,  0.5f}  
+</pre>
+        
+        <h4><a name="subscriptions">Subscriptions</a></h4>
+
+        <p>Some endpoints allow subscriptions to be added to be notified of changes. That is done by making a 
+        <font class="cmd">POST</font> to its <font class="endpoint">subscribe</font> endpoint. The body contains
+        a <em>Subscriber</em> object which has a URL string and an optional set of parameters. For example, to have 
+        notifications posted to a <font class="endpoint">/mysubscriptions</font> endpoint a
+        subscription could be:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/mysubscriptions"
+}
+</pre>
+        <p>If REW does not get an OK response to an update the subscription will be cancelled. It can also be removed by 
+        posting the same <em>Subscriber</em> data to the <font class="endpoint">unsubscribe</font> endpoint. The
+        list of subscribers can be read from <font class="endpoint">subscribers</font>.
+        
+        </p><h3><a name="application">Application</a></h3>
+        
+        <p>The <font class="endpoint">/application</font> endpoint provides application-level control 
+        of REW. A <font class="cmd">GET</font> at the <font class="endpoint">/application/commands</font> 
+        endpoint returns the list of commands, to issue a command <font class="cmd">POST</font> it to
+        the <font class="endpoint">/application/command</font> endpoint. There is a shutdown command
+        for use when REW is run without a GUI. There is a "Clear command in progress" command to reset 
+        the API's internal record of a command that has been previously accepted by an endpoint. That 
+        record is used to prevent commands being run before a previous command has completed, the 
+        "Clear command in progress" is a fallback in case an error has prevented a command from completing
+        and clearing the record.
+        
+        </p><p>Commands are included to Save main graph image, Save overlay graph image, Copy main graph to 
+        clipboard, Copy overlay graph to clipboard, Fit main graph axes to data, Fit overlay graph axes 
+        to data, Fit main graph Y axis to data and Fit overlay graph Y axis to data.
+        
+        </p><p>There are application endpoints to:
+        </p><ul>
+            <li>GET and POST the visibility of the main, overlay and SPL logger windows
+            </li><li>GET, PUT and POST graph image saver settings for the main or overlay graphs
+            </li><li>GET and POST the Y axis unit for the current main or overlay graphs
+            </li><li>GET the Y axis unit choices for the current main or overlay graphs
+            </li><li>GET and POST the graph limits for the current main or overlay graphs
+            </li><li>GET and POST the cursor X position for the current main or overlay graphs
+            </li><li>GET and POST the graph choice for the main or overlay graph windows
+            </li><li>GET the graph choices for the main or overlay graph windows
+            </li><li>GET and POST the frequency axis choice for the main or overlay graph windows
+            </li><li>GET the frequency axis spacing choices for the main or overlay graph windows
+        </li></ul>
+        
+        <p>Any errors that have been logged can be read from the <font class="endpoint">/application/errors</font> 
+        endpoint, that returns a list of ErrorMessage structures. The most recent error can be read from 
+        <font class="endpoint">/application/last-error</font>. Rather than polling for errors with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified if an error occurs. There are no 
+        subscription parameters for error subscriptions.
+        
+        </p><p>Any warnings that have been logged can be read from the <font class="endpoint">/application/warnings</font> 
+        endpoint, that returns a list of WarningMessage structures. The most recent warning can be read from 
+        <font class="endpoint">/application/last-warning</font>. Rather than polling for warnings with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified if an warning occurs.
+
+        </p><p>To avoid having to poll the API or to run a server a blocking mode can be enabled by <font class="cmd">POST</font>ing
+        to <font class="endpoint">/application/blocking</font>. The endpoint accepts a boolean to enable or disable
+        the blocking behaviour. When blocking is enabled the API will not respond until the requested action is 
+        completed, but that may mean the response is delayed by several seconds for long-running tasks. Once the OK
+        response has been received the result can be read from the response body as a ProcessResult. 
+        If REW has not responded within 10 seconds an internal error response will be issued. The setting is persistent, 
+        it will remain as set for the next startup.
+
+        </p><p>A flag can be set to inhibit any graph updates by <font class="cmd">POST</font>ing
+        to <font class="endpoint">/application/inhibit-graph-updates</font>. This may be useful 
+        when running actions which delete or modify measurements to prevent graphs being updated 
+        with partial data or errors caused by trying to plot data which is no longer available.
+
+        </p><p>A flag can be set to log API messages by <font class="cmd">POST</font>ing
+        to <font class="endpoint">/application/logging</font>. Messages are logged to rew_output.txt 
+        in the REW log files folder. This may be useful when debugging.
+
+        </p><h3><a name="audio">Audio</a></h3>
+        
+        <p>The <font class="endpoint">/audio</font> endpoint provides full control of REW's 
+        audio input and output selections and associated controls. A <font class="cmd">GET</font> 
+        at the audio endpoint returns its current status, including whether audio is enabled (true
+        unless the -noaudio command line option was used) and whether the audio endpoints are
+        ready for use, which becomes true a few seconds after REW starts up.
+        
+        </p><p>On Windows REW has a choice of Java or ASIO audio drivers, on other platforms Java is the 
+        only choice. The <font class="endpoint">/audio/driver</font> endpoint allows the driver to be 
+        read (<font class="cmd">GET</font>) or set (<font class="cmd">POST</font>). The driver choices
+        are available at <font class="endpoint">/audio/driver-types</font>.
+        All Java-related items are under <font class="endpoint">/audio/java/</font>, ASIO-related items 
+        are under <font class="endpoint">/audio/asio/</font>. Items under those paths are only accessible
+        when the respective driver has been selected.
+        
+        </p><p>The sample rate can be read and set at the <font class="endpoint">/audio/samplerate</font>
+        endpoint. When setting sample rate the unit can be Hz, kHz or absent. If absent Hz is assumed. 
+        If the current audio interface cannot support the requested sample rate a 400 Bad Request status 
+        will be returned with a list of the rates that are available for selection. The sample rates 
+        supported for the current interface selection can be read from <font class="endpoint">/audio/samplerates</font>.
+        
+        </p><p>The global option to <a href="https://www.roomeqwizard.com/help/help_en-GB/html/soundcard.html#treat32as24">treat 32-bit data as 24-bit</a>
+        can be read and set at the <font class="endpoint">/audio/configuration</font> endpoint.
+
+        </p><p>The current input calibration configuration, including any mic cal file(s) being used, can be read 
+        at the <font class="endpoint">/audio/input-cal</font> endpoint. This endpoint only supports 
+        <font class="cmd">PUT</font> to make changes since the current input selection the cal data relates to 
+        is determined by the driver, input device and input selections. Although the current input selection field 
+        in the returned InputCalConfiguration structure is read-only it is recommended that it be included when
+        changing settings, REW will check that it still corresponds to the input in use and reject the request
+        if the input has changed. To clear a cal file set its file path to an empty string. Note that backslashes 
+        in file paths must be escaped (meaning a double backslash is required), or forward slashes may 
+        be used.
+        
+        </p><p>The current output ("soundcard") calibration configuration, including any cal file being used, can be read 
+        at the <font class="endpoint">/audio/output-cal</font> endpoint. This endpoint only supports 
+        <font class="cmd">PUT</font> to make changes since the current output selection the cal data relates to 
+        is determined by the driver, output device and output selections. Although the current output selection field 
+        in the returned OutputCalConfiguration structure is read-only it is recommended that it be included when
+        changing settings, REW will check that it still corresponds to the output in use and reject the request
+        if the output has changed. To clear a cal file set its file path to an empty string. Note that backslashes 
+        in file paths must be escaped (meaning a double backslash is required), or forward slashes may 
+        be used.
+        
+        </p><h4><a name="java">Java settings</a></h4>
+        
+        <p>All Java driver items are under <font class="endpoint">/audio/java/</font>. After selecting
+        the Java driver the current input device, input, output device and output can be read or set at
+        <font class="endpoint">/audio/java/input-device</font>, <font class="endpoint">/audio/java/input</font>, 
+        <font class="endpoint">/audio/java/output-device</font> and <font class="endpoint">/audio/java/output</font>. 
+        The lists of available devices, inputs and outputs to choose from are at 
+        <font class="endpoint">/audio/java/input-devices</font>, <font class="endpoint">/audio/java/inputs</font>, 
+        <font class="endpoint">/audio/java/output-devices</font> and <font class="endpoint">/audio/java/outputs</font>. 
+        The input and output are specific to their respective device, if the device is changed the list of inputs
+        or outputs available will also change. The input and output sample size in bits can be read as a JavaFormat 
+        object from <font class="endpoint">/audio/java/format</font>. Note that the sample size may be greater than 
+        the actual device data width, a 32-bit sample size might be used to carry 24-bit data. The actual data width for 
+        input data can be determined from the input bit mask at <font class="endpoint">/audio/input-bit-mask</font>, 
+        which is updated whenever input data is being received, i.e. when an input is actively being captured.
+        
+        </p><p>By default REW will select the first named (i.e. non default)
+        input or output available when a device is selected, which for many devices will be the only option. 
+        After the device and input or output have been selected the input channel and output channel may be selected. 
+        If applicable (depending on the timing reference mode for measurement) the timing reference output channel 
+        and the input reference (loopback) channel may also be selected. If multiple inputs are being captured 
+        (<a href="https://www.roomeqwizard.com/help/help_en-GB/html/proupgrades.html">Pro upgrade</a>) the last input channel of the input range may be selected. 
+        If using <a href="https://www.roomeqwizard.com/help/help_en-GB/html/soundcard.html#virtualbalanced">Virtual balanced</a> mode the ref input channel is 
+        the second channel used to form the balanced pair. The channel endpoints are
+        <font class="endpoint">/audio/java/input-channel</font>, <font class="endpoint">/audio/java/ref-input-channel</font>, 
+        <font class="endpoint">/audio/java/last-input-channel</font>, <font class="endpoint">/audio/java/output-channel</font> and
+        <font class="endpoint">/audio/java/ref-output-channel</font>. Input channels are numeric, indexed from 1. The number
+        of input channels can be read from <font class="endpoint">/audio/java/num-input-channels</font>. Output channels
+        are strings and have a L+R option to select the front pair as output. The output channel choices can be read from
+        <font class="endpoint">/audio/java/output-channels</font>, the ref output channel choices from
+        <font class="endpoint">/audio/java/ref-output-channels</font>. 
+        
+        </p><p>REW supports up to 16 java output channels. Those channels can be mapped to any 16 of the hardware channels on an interface 
+        through the <font class="endpoint">/audio/java/output-channel-mapping</font> endpoint. A <font class="cmd">GET</font>
+        returns the list of the current mappings, the length of the list will be the number of output channels on the 
+        currently selected output device up to a maximum of 16. The mappings can be changed by <font class="cmd">POST</font>
+        of a mapping list to the endpoint. If an empty string is provided as the channel label the hardware channel will be
+        used as the label. If the list posted has more channel entries than the output device supports any mappings outside 
+        the range of the output device hardware channel count will be ignored.
+        
+        </p><p>The Java driver can be restricted to 
+        only accesses the audio interface in stereo by setting the stereoOnly flag at <font class="endpoint">/audio/java/stereo-only</font>.
+        Note that on Windows only the WASAPI-exclusive Java device entries (names starting "EXCL:") support
+        multichannel operation, other entries only offer mono or stereo connections to the interface.
+
+        </p><h4><a name="asio">ASIO settings</a></h4>
+        
+        <p>All ASIO driver items are under <font class="endpoint">/audio/asio/</font>. After selecting
+        the ASIO driver the current device, input and output can be read or set at <font class="endpoint">/audio/asio/device</font>
+        <font class="endpoint">/audio/asio/input</font> and <font class="endpoint">/audio/asio/output</font>. 
+        The lists of available devices, inputs and outputs to choose from are at 
+        <font class="endpoint">/audio/asio/devices</font>, <font class="endpoint">/audio/asio/inputs</font>, 
+        and <font class="endpoint">/audio/asio/outputs</font>. The input and output are specific to their 
+        respective device, if the device is changed the list of inputs or outputs available will also change. 
+        The input and output sample format and buffer size in samples can be read as an ASIOFormat object from 
+        <font class="endpoint">/audio/asio/format</font>. The actual data width for input data can be determined 
+        from the input bit mask at <font class="endpoint">/audio/input-bit-mask</font>, which is updated whenever 
+        input data is being received, i.e. when an input is actively being captured.
+        </p><p>If applicable (depending on the timing reference mode for measurement) the timing reference output channel 
+        and the input reference (loopback) channel may also be selected. If multiple inputs are being captured 
+        (<a href="https://www.roomeqwizard.com/help/help_en-GB/html/proupgrades.html">Pro upgrade</a>) the last input of the input range may be selected. 
+        If using <a href="https://www.roomeqwizard.com/help/help_en-GB/html/soundcard.html#virtualbalanced">Virtual balanced input</a> mode the ref input is 
+        the second channel used to form the balanced pair. A second ASIO output can be selected by first enabling 
+        it at <font class="endpoint">/audio/asio/secondary-output-enable</font> then selecting it at 
+        <font class="endpoint">/audio/asio/secondary-output</font>. 
+        
+        </p><p>A forced reload of the ASIO driver can be triggered by posting a reload command to 
+        <font class="endpoint">/audio/asio/command</font>.
+        
+        
+        </p><h3><a name="input-levels">Input levels</a></h3>
+        
+        <p>The <font class="endpoint">/input-levels</font> endpoint provides access to the current input level
+        via <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> whenever the inputs are being monitored. Monitoring is started 
+        or stopped by posting a command to the  <font class="endpoint">/input-levels/command</font> endpoint. The 
+        list of commands is retrieved from the The <font class="endpoint">/input-levels/commands </font> endpoint. 
+        Sending a command to start monitoring input levels will start audio capture if it is not already running. 
+        Audio capture will continue until a command is sent to stop monitoring input levels.
+        
+        </p><p>The last input levels update can be read from the <font class="endpoint">/input-levels/last-levels</font> 
+        endpoint. That will return the last InputLevels object generated by an input levels update. More commonly 
+        levels would be monitored through a subscription.
+        
+        </p><p>A subscription can be added by making a <font class="cmd">POST</font> to the 
+        <font class="endpoint">/input-levels/subscribe</font> endpoint. The body contains a <em>Subscriber</em>
+        object which has a URL string and an optional "unit" parameter that specifies the units of the input level 
+        values. The accepted units can be read from the <font class="endpoint">/input-levels/units</font>
+        endpoint. If the unit is omitted levels are returned as dBFS. To have input level updates posted to a 
+        <font class="endpoint">/input-levels</font> endpoint a subscription could be:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/input-levels",
+  "parameters": {"unit": "dBV"}
+}
+</pre>
+        <p>Levels are returned as an InputLevels object which has the unit, arrays of the rms and peak levels for 
+        each input since the last update and a timeSpanSeconds value with the time period over which the values 
+        were calculated. 
+        
+        </p><h3><a name="measurements">Measurements</a></h3>
+        
+        <p>The <font class="endpoint">/measurements</font> endpoint provides access to any measurements REW has
+        generated or loaded. Measurements may be referenced by their index number (starting from 1) or by their 
+        UUID. <b>Using index numbers for measurements is NOT recommended</b>. Index numbers change when measurements 
+        are added to or removed from a <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#groups">group</a> or when other measurements are deleted or added 
+        to or removed from a group. The UUID for a measurement is available from the measurement summary. 
+        
+        </p><p><b>N.B.</b> If a measurement is loaded more than once each will have the same UUID. 
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/measurements</font> endpoint 
+        returns a summary list of the current measurements. A <font class="cmd">GET</font> at the 
+        <font class="endpoint">/measurements/:id</font> gets the summary for the measurement at index 
+        id or with UUID id. A <font class="cmd">DELETE</font> at the <font class="endpoint">/measurements/:id</font>
+        endpoint deletes that measurement, <font class="cmd">DELETE</font> at the <font class="endpoint">/measurements</font>
+        endpoint deletes all the measurements. <b>N.B. There are no delete confirmations, use with care!</b>
+        
+        </p><p>Here is an example of a measurement summary:
+</p><pre>{
+  "title": "Artist 3+Q2070Si",
+  "notes": "Adam Artist 3 desktop speaker with Q2070Si sub under the desk, no EQ",
+  "date": "2014-May-05 14:12:40",
+  "uuid": "ba2da346-0f31-4d9d-bbeb-2bfcd07e1cb9",
+  "groupName": "Listening position",
+  "groupNotes": "Listening position measurements",
+  "groupID": "0059f8f0-7eca-1000-8423-819b68ed3558",
+  "startFreq": 2.1972656,
+  "endFreq": 24027.117,
+  "inverted": false,
+  "sampleRate": 48000,
+  "rewVersion": "V5.01 Beta 20",
+  "splOffsetdB": 139.223,
+  "alignSPLOffsetdB": 0,
+  "cumulativeIRShiftSeconds": 0,
+  "clockAdjustmentPPM": 0,
+  "timeOfIRStartSeconds": -0.0000625,
+  "timeOfIRPeakSeconds": -0.0000012207031250266454
+}
+</pre>
+        
+        <p>A <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified of any changes 
+        made to the list of measurements, including measurements being added or deleted, the contents 
+        of a measurement changing, or a measurement becoming selected. There are no parameters for measurement 
+        subscriptions. The change notifications are conveyed in a MeasurementsListChange object, which has 
+        a string with a description of the type of change and indices for the range of measurements the change 
+        affects.  
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/measurements/selected-uuid</font> 
+        endpoint returns the UUID of the currently selected measurement. To select a measurement 
+        <font class="cmd">POST</font> its UUID to <font class="endpoint">/measurements/selected-uuid</font>.
+
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/measurements/selected</font> 
+        endpoint returns the index of the currently selected measurement. To select a measurement 
+        <font class="cmd">POST</font> its index to <font class="endpoint">/measurements/selected</font>.
+
+        </p><h4><a name="measurements-commands">Measurements commands</a></h4>
+        
+        <p>A <font class="cmd">GET</font> at the <font class="endpoint">/measurements/commands</font> 
+        endpoint returns a list of commands, to issue a command <font class="cmd">POST</font> it to
+        the <font class="endpoint">/measurements/command</font> endpoint. The "Sort alphabetically" 
+        command sorts the list of measurements by measurement name, and by date if the names are the 
+        same. The "Save all" command has a parameter for the path to the file to be saved to, if the 
+        file exists it will be overwritten. A note to be saved with the measurement can optionally be 
+        specified as a second parameter. The "Load" command has a list of the filenames to load as 
+        parameters in the command. Note that if a file path has backslash as the path separator the 
+        string for the path will need to escape the backslash entries, i.e. use a double backslash 
+        instead or replace backslash by forward slash. Here are examples of loading two mdat files 
+        and of saving all files: 
+    </p><pre>{
+  "command": "Load",
+  "parameters": [
+    "C:/Users/myusername/REW/file1.mdat",
+    "C:/Users/myusername/REW/file2.mdat"
+  ]
+}
+    </pre>
+        
+    <pre>{
+  "command": "Save all",
+  "parameters": [
+    "C:/Users/myusername/REW/latest.mdat",
+    "These are my latest files"
+  ]
+}
+    </pre>
+
+        <p>The "Dirac" command generates a new measurement with a pure impulse (dirac delta). The 
+        parameters are the sample rate for the measurement, the total number of samples for the response
+        and the zero-based index of the peak. Here is an example:
+    </p><pre>{
+  "command": "Dirac",
+  "parameters": [
+    "48000", "131072", "65536"
+  ]
+}
+    </pre>
+    
+        <h4><a name="change-summary">Change name or notes</a></h4>
+        
+        <p>A measurement's name and/or notes can be changed by a <font class="cmd">PUT</font> at the 
+        <font class="endpoint">/measurements/:id</font> endpoint, putting a MeasurementSummary object which has the
+        title and/or notes field set to the new value.
+        
+        </p><h4><a name="freqresp">Frequency response</a></h4>
+        
+        <p>The frequency response for a measurement can be obtained by a <font class="cmd">GET</font> at  
+        <font class="endpoint">/measurements/:id/frequency-response</font>. A FrequencyResponse object is 
+        returned, with a smoothing setting, a start frequency, a points-per-octave figure (for log-spaced data) or a frequency step value 
+        (for linear-spaced data), and Base64-encoded strings of response magnitudes and phases generated from 
+        the raw bytes of the 32-bit float magnitude and phase values at each frequency. 
+        
+        </p><p>The default unit for the magnitude 
+        data is SPL but other units can be requested by including a unit query value in the url, e.g. ?unit=dBFS. The 
+        list of units available can be read from <font class="endpoint">/measurements/frequency-response/units</font>.
+        Phase values are in degrees. 
+        
+        </p><p>The default smoothing is whatever the measurement currently uses, but other smoothings can be requested by 
+        including a smoothing query value in the url, e.g. ?smoothing="1/12". The list of smoothing choices can be 
+        read from <font class="endpoint">/measurements/frequency-response/smoothing-choices</font>. 
+        
+        </p><p>Whether the returned data is log-spaced or linear-spaced depends on the measurement, but log-spaced data 
+        can be forced by including a ppo query value in the url, e.g. ?ppo=96. Note that to avoid sampling artefacts 
+        log-spaced data will be smoothed to ppo/2 if a greater smoothing has not already been applied. The frequency 
+        axis for the result data starts at the start frequency in Hz returned in the FrequencyResponse object and the 
+        frequency values corresponding to the magnitude array entries are either linearly spaced from the start frequency, 
+        with a corresponding freqStep Hz value to give the interval, or log spaced with a corresponding points-per-octave 
+        value, which can be used to calculate the ratio between successive values, 2^(1.0/ppo). Alternatively the frequency 
+        at any zero-based index for log spaced data is startFreq*e^(index*ln(2)/ppo).
+        
+        </p><h4><a name="groupdelay">Group delay</a></h4>
+        
+        <p>The group delay for a measurement can be obtained by a <font class="cmd">GET</font> at  
+        <font class="endpoint">/measurements/:id/group-delay</font>. A FrequencyResponse object is 
+        returned, with a smoothing setting, a start frequency, a points-per-octave figure (for log-spaced data) or 
+        a frequency step value (for linear-spaced data), and Base64-encoded strings of the group delay in the 
+        magnitudes field. The unit for the group delay data is seconds. Smoothing and ppo options are the same as 
+        frequency response queries.
+
+        </p><h4><a name="impulseresp">Impulse response</a></h4>
+        
+        <p>The impulse response for a measurement (if it has one) can be obtained by a <font class="cmd">GET</font>
+        at  <font class="endpoint">/measurements/:id/impulse-response</font>. An ImpulseResponse object is returned, 
+        with a start time, a description of the timing reference used, a sample interval in seconds, a sample rate in 
+        Hz and a Base64-encoded string of response data. The default unit for the data is Percent but other units can 
+        be requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be 
+        read from <font class="endpoint">/measurements/impulse-response/units</font>. Impulse response queries can 
+        return the windowed portion of the data by including a query value ?windowed=true in the url. Data is normalised 
+        by default, for data that is not normalised include a query value ?normalised=false in the url.
+        
+        </p><p>The impulse response for a measurement's filters (if there are any) can be obtained by a <font class="cmd">GET</font>
+        at  <font class="endpoint">/measurements/:id/filters-impulse-response</font>. An ImpulseResponse object is returned, 
+        with a start time, a sample interval in seconds, a sample rate in Hz and a Base64-encoded string of response data. 
+        The sample rate and length of the response must be specified by including query values in the url, e.g. 
+        ?samplerate=48000&amp;length=65536. The maximum length accepted is 4,194,304 samples.
+        
+        </p><h4><a name="irwindows">IR window settings</a></h4>
+
+        <p>A measurement's impulse response window settings can be accessed at the 
+        <font class="endpoint">/measurements/:id/ir-windows</font> endpoint. The settings are in an IRWindows object,
+        there is an example below. The FDW width can be in cycles or octaves according to the current selection in the 
+        REW View preferences. Either can be used when changing window setting by <font class="cmd">PUT</font> or
+        <font class="cmd">POST</font>.
+    </p><pre>{
+  "leftWindowType": "Tukey 0.25",
+  "rightWindowType": "Tukey 0.25",
+  "leftWindowWidthms": 125,
+  "rightWindowWidthms": 500,
+  "refTimems": 0,
+  "addFDW": true,
+  "fdwWidthCycles": 15
+}
+    </pre>
+        
+        <h4><a name="distortion">Distortion data</a></h4>
+
+        <p>A measurement's distortion data can be accessed at the 
+        <font class="endpoint">/measurements/:id/distortion</font> endpoint. The data is 
+        returned in a Distortion object which has a String describing the type of data, an 
+        array of column header strings and a 2D array of Doubles with the data. 
+        The default unit for the data is percent but other units can be requested by including 
+        a unit query value in the url, e.g. ?unit=dBr. The list of units can be read 
+        from <font class="endpoint">/measurements/distortion-units</font>. Sweep distortion 
+        data is returned at the PPO value included in the url, e.g. ?ppo=12, or at 3 PPO if 
+        not specified. PPO is not required for other types of distortion data. The list of PPO 
+        choices can be read from <font class="endpoint">/measurements/distortion-ppo-choices</font>. 
+        
+        </p><h4><a name="singlecommands">Commands for individual measurements</a></h4>
+
+        <p>An individual measurement can be processed by <font class="cmd">POST</font> of a ProcessSingleMeasurement object 
+        to the <font class="endpoint">/measurements/:id/command</font> endpoint. The list of commands for individual measurements 
+        can be retrieved from the <font class="endpoint">/measurements/:id/commands</font> endpoint. They include
+        commands to Save, generate a minimum phase version, generate an excess phase version, generate a Mic in box correction,
+        make a response copy, merge cal data to IR, Trim IR to windows, scale the IR, smooth, generate waterfalls, generate spectrograms,
+        Estimate IR delay, offset t=0, add an SPL offset, invert, wrap phase, unwrap phase and generate RT60 data.
+        Some of those commands produce a new measurement (generate a minimum phase version, generate an excess phase version, 
+        generate a Mic in box correction, make a response copy, merge cal data to IR, Trim IR to windows), others make changes 
+        to the measurement itself. 
+        
+        </p><p>The commands may have associated parameters, for example the save command requires a "filename" 
+        parameter with the filename to save to, smooth requires a "smoothing" setting. Note that if a file path has backslash as 
+        the path separator the string for the path will need to escape the backslash entries, i.e. use a double backslash instead 
+        or replace backslash by forward slash. Here is an example of a save command:
+    </p><pre>{
+  "command": "Save",
+  "parameters": {filename: "c:/users/myusername/downloads/myfile.mdat"}
+}
+    </pre>
+    
+        <p>The command has an optional resultUrl, if included the result of the process will be posted to the URL. The
+        process result can be read from <font class="endpoint">/measurements/process-measurements-result</font> but may not be 
+        available immediately, some processes take time to complete. The ProcessMeasurementsResult object has the name of the process
+        it relates to, a message (which may be absent or empty) and a set of results for each measurement that was processed
+        which are returned as a map of result names and result values, all strings. For individual measurements there will be
+        one map entry.
+        
+        </p><h4><a name="waterfall">Generate waterfall</a></h4>
+
+        <p>Generate waterfall and generate equalised waterfall require a "mode" parameter ("Fourier" or "Burst decay"), 
+        a parameter "slices" for the number of slices to generate and a set of additional parameters the depend on the mode. 
+        Fourier requires "left window type", "right window type", "window width ms", "time range ms", "rise time ms" and 
+        "use csd mode" parameters. Burst decay requires "bandwidth" and "periods" parameters. Here are some examples of 
+        commands to generate a waterfall:
+    </p><pre>{
+  "command": "Generate waterfall",
+  "parameters": {
+    "mode": "Fourier",
+    "slices": "101",
+    "left window type": "Hann",
+    "right window type": "Tukey 0.25",
+    "window width ms": "300",
+    "time range ms": "500",
+    "rise time ms": "150",
+    "use csd mode": "false",
+    "ppo": "48",
+    "smoothing": "1/48"},
+  "resultUrl": "http://127.0.0.1:5374/waterfalls"
+}
+    </pre>
+    <pre>{
+  "command": "Generate waterfall",
+  "parameters": {
+    "mode": "Burst decay",
+    "slices": "101",
+    "periods": "30",
+    "ppo": "48",
+    "bandwidth": "1/3"},
+  "resultUrl": "http://127.0.0.1:5374/waterfalls"
+}
+    </pre>
+        
+        <h4><a name="spectrogram">Generate spectrogram</a></h4>
+
+        <p>Generate spectrogram also requires a "mode" parameter ("Fourier", "Wavelet, "Airy CWT, "Morlet CWT, "Burst decay"), 
+        a parameter "slices" for the number of slices to generate, a "ppo" parameter for the frequency resolution of the result,
+        an "amplitude" parameter for the data values and a set of additional parameters the depend on the mode. Fourier requires 
+        "window type", "window width ms", "before ms" and "after ms" parameters. Burst decay requires "bandwidth" and "periods" 
+        parameters. The wavelet modes require "bandwidth", "before ms" and "after ms" parameters. Here are some examples of commands 
+        to generate a spectrogram:
+    </p><pre>{
+  "command": "Generate spectrogram",
+  "parameters": {
+    "mode": "Fourier",
+    "slices": "551",
+    "amplitude": "Log (dB SPL)",
+    "window type": "Gaussian",
+    "window width ms": "300",
+    "before ms": "50",
+    "after ms": "500",
+    "ppo": "48"},
+  "resultUrl": "http://127.0.0.1:5374/spectrograms"
+}
+    </pre>
+    <pre>{
+  "command": "Generate spectrogram",
+  "parameters": {
+    "mode": "Morlet CWT",
+    "slices": "551",
+    "amplitude": "Linear (% peak)",
+    "before ms": "5",
+    "after ms": "50",
+    "bandwidth": "1/3",
+    "ppo": "48"},
+  "resultUrl": "http://127.0.0.1:5374/spectrograms"
+}
+    </pre>
+        
+        <p>The generate waterfall and spectrogram commands return the 2D data in a ProcessResult in key "0". The result
+        includes an array of the frequencies, an array of the times (or periods for Burst Decay) and a set of arrays of SPL data
+        vs frequency for each time index. It is best to specify a resultUrl for those as the generation can take some time. Note 
+        that the commands do not affect the REW GUI and will not produce a result in the GUI, they are provided as a way to
+        generate and extract data. 
+        
+        </p><h4><a name="generateminphase">Generate minimum phase</a></h4>
+        
+        <p>Generate minimum phase runs a minimum phase calculation for the measurement. It require parameters for "include cal", 
+        "append lf tail" and "append hf tail" which are boolean values.
+        If "append lf tail" is true the parameters must include an "lf tail start" frequency in Hz and an "lf tail slope" in dB/octave, 
+        which must be ≥ 0. 
+        If "append hf tail" is true the parameters must include an "hf tail start" frequency in Hz and an "hf tail slope" in dB/octave, 
+        which must be ≤ 0, along with a "frequency warping" boolean.
+        If either "append lf tail" or "append hf tail" are false a "replicate data" boolean is required.
+        Here is an example of a command to generate minimum phase:
+    </p><pre>{
+  "command": "Generate minimum phase",
+  "parameters": {
+    "include cal": "true",
+    "append lf tail": "true",
+    "lf tail start": "27",
+    "lf tail slope": "12.0",
+    "append hf tail": "true",
+    "hf tail start": "15000",
+    "hf tail slope": "-18.0",
+    "frequency warping": "false",
+    "replicate data": "false"},
+  "resultUrl": "http://127.0.0.1:5374/minphase"
+}
+    </pre>
+
+        <h4><a name="minphase">Minimum or excess phase version</a></h4>
+        
+        <p>Minimum phase version and Excess phase version create new measurements with the minimum or excess phase of the source measurement.
+        They require parameters for "include cal", "append lf tail" and "append hf tail" which are boolean values.
+        If "append lf tail" is true the parameters must include an "lf tail start" frequency in Hz and an "lf tail slope" in dB/octave, 
+        which must be ≥ 0. 
+        If "append hf tail" is true the parameters must include an "hf tail start" frequency in Hz and an "hf tail slope" in dB/octave, 
+        which must be ≤ 0, along with a "frequency warping" boolean.
+        If either "append lf tail" or "append hf tail" are false a "replicate data" boolean is required.
+        Here is an example of a command to generate a minimum phase version
+    </p><pre>{
+  "command": "Minimum phase version",
+  "parameters": {
+    "include cal": "true",
+    "append lf tail": "true",
+    "lf tail start": "27",
+    "lf tail slope": "12.0",
+    "append hf tail": "true",
+    "hf tail start": "15000",
+    "hf tail slope": "-18.0",
+    "frequency warping": "false",
+    "replicate data": "false"},
+  "resultUrl": "http://127.0.0.1:5374/minphase"
+}
+    </pre>
+
+        <h4><a name="scaleir">Scale IR</a></h4>
+        
+        <p>Scale IR requires a dB gain parameter:
+    </p><pre>{
+  "command": "Scale IR",
+  "parameters": {
+    "gain dB": 23.4
+  }
+}
+    </pre>
+
+        <h4><a name="smooth">Smooth</a></h4>
+        
+        <p>Smooth requires a smoothing parameter:
+    </p><pre>{
+  "command": "Smooth",
+  "parameters": {
+    "smoothing": "1/3"
+  }
+}
+    </pre>
+
+        <h4><a name="offsettzero">Offset t=0</a></h4>
+        
+        <p>Offset t=0 requires parameters for "offset" and "unit", where unit is 
+        for the offset value and may be seconds, metres, feet or samples.
+        Here is an example of a command to offset t=0
+    </p><pre>{
+  "command": "Offset t=0",
+  "parameters": {
+    "offset": "0.5",
+    "unit": "metres"},
+  "resultUrl": "http://127.0.0.1:5374/result"
+}
+    </pre>
+
+        <h4><a name="addsploffset">Add SPL offset</a></h4>
+        
+        <p>Add SPL offset requires an offset parameter:
+    </p><pre>{
+  "command": "Add SPL offset",
+  "parameters": {
+    "offset": -3.2
+  }
+}
+    </pre>
+
+        <h4><a name="unwrap">Unwrap phase</a></h4>
+        
+        <p>Unwrap phase requires a frequency parameter to set the reference frequency, 
+            where the unwrapped phase will be within -180 .. 180 degrees. The frequency 
+            must be within the range of the measurement.
+    </p><pre>{
+  "command": "Unwrap phase",
+  "parameters": {
+    "frequency": 1000
+  }
+}
+    </pre>
+
+        <h4><a name="rt60">Generate RT60</a></h4>
+        
+    <p>Generate RT60 requires an octave fraction (one or one-third), a filter order and parameters 
+        for zero phase or reverse filtering. One-third octave can be specified as "3" 
+        or "1/3", the former avoiding the "/" character.
+    </p><pre>{
+  "command": "Generate RT60",
+  "parameters": {
+    "octaveFrac": 3,
+    "filterOrder": 6,
+    "zeroPhaseFiltered": true,
+    "reverseFiltered": false
+  }
+}
+    </pre>
+
+        <p>The RT60 results (including other ISO 3382 parameters) can be read from the 
+        <font class="endpoint">/measurements/:id/rt60 </font> endpoint, specifying 
+        the octave fraction as a query parameter, e.g. ?octaveFrac=1. The results
+        are returned as a map of frequency versus parameter values, the first entry 
+        with frequency 0 being the unfiltered (full band) result.
+        
+        </p><h4><a name="process-measurements">Processing measurements</a></h4>
+        
+        <p>A set of measurements can be processed by <font class="cmd">POST</font> of a ProcessMeasurements object to the
+        <font class="endpoint">/measurements/process-measurements</font> endpoint. The list of process commands can be read
+        from <font class="endpoint">/measurements/process-commands</font> and includes:
+        </p><pre>        
+    "Align SPL",
+    "Time align",
+    "Align IR start",
+    "Cross corr align",
+    "Vector average",
+    "RMS average",
+    "dB average",
+    "Magn plus phase average",
+    "dB plus phase average",
+    "Vector sum",
+    "Smooth",
+    "Arithmetic",
+    "Remove IR delays"
+    </pre>
+        <p>The command parameters will vary according to the 
+        process to be carried out, see details below. The ProcessMeasurements object has a list of either the numeric indices 
+        or a list of the UUID strings of the measurements to be processed. It also has an optional URL, if included the result
+        of the process will be posted to the URL. The process result can be read from 
+        <font class="endpoint">/measurements/process-result</font> but may not be available immediately, some processes take 
+        time to complete. The ProcessMeasurementsResult object has the name of the process it relates to, a message (which may 
+        be absent or empty) and a set of results for each measurement that was processed which are returned as a map of result 
+        names and result values, all strings.
+        
+        </p><p>The Align SPL process has these parameters:
+        </p><ul>
+            <li>targetdB: either "average" to align to the average SPL of the measurements or an SPL value in dB, e.g. "75.0"
+            </li><li>frequencyHz: the centre frequency for the alignment in Hz, e.g. "1000"
+            </li><li>spanOctaves: the alignment span in octaves, e.g. "2"
+        </li></ul>
+        
+        <h4><a name="alignspl">Align SPL</a></h4>
+        
+        <p>Here is an example of a ProcessMeasurements object to align SPL:
+    </p><pre>{
+  "processName": "Align SPL",
+  "measurementIndices": [1,3,4],
+  "parameters": {"targetdB": "85.0", "frequencyHz": "1000", "spanOctaves": 2},
+  "resultUrl": ""
+}
+    </pre>
+        
+        <p>The results of Align SPL are available as soon as the process command is acknowledged.
+            
+        </p><h4><a name="arithmetic">Arithmetic</a></h4>
+        
+        <p>The Arithmetic process operates on pairs of measurements, the first measurement is designated A, the second B.
+            Arithmetic has these parameters, function is mandatory but others are optional if applicable to the specified
+            function:
+        </p><ul>
+            <li>function: The arithmetic function to perform, the list of functions can be read from
+                <font class="endpoint">/measurements/arithmetic-functions</font>
+            </li><li>maxGain: gain limit in dB for division and inversion functions, omit for no limiting
+            </li><li>lowerLimit: the lower frequency limit in Hz for band limited functions (division or inversion)
+            </li><li>upperLimit: the lower frequency limit in Hz for band limited functions (division or inversion)
+            </li><li>mergeFrequency: the frequency at which to perform a merge function
+            </li><li>mergeBlend: true if a merge function is to be blended over a span
+            </li><li>targetLevel: target level in dB for an inversion function
+            </li><li>autoTarget: true if target level is to be set automatically for an inversion function
+            </li><li>excludeNotches: true if notches are to be excluded for an inversion function
+        </li></ul>
+        
+        <p>Here is an example of a ProcessMeasurements object to perform A * B trace arithmetic:
+    </p><pre>{
+  "processName": "Arithmetic",
+  "measurementIndices": [1,3],
+  "parameters": {"function": "A * B"},
+  "resultUrl": ""
+}
+    </pre>
+    
+        <p>Here is an example of a ProcessMeasurements object to perform 1 / A trace arithmetic:
+    </p><pre>{
+  "processName": "Arithmetic",
+  "measurementIndices": [1,2],
+  "parameters": {
+    "function": "1 / A",
+    "maxGain": "3.0",
+    "lowerLimit": "100",
+    "upperLimit": "1000",
+    "targetLevel": "75.0",
+    "autoTarget": "false",
+    "excludeNotches": "true"
+  },
+  "resultUrl": ""
+}    
+    </pre>
+
+        <h4><a name="eqandfilters">EQ and filters</a></h4>
+        
+        <p>A measurement's equaliser selection can be read from the <font class="endpoint">/measurements/:id/equaliser</font>
+        endpoint and changed by a <font class="cmd">POST</font> to that endpoint. The available equalisers can be read from 
+        the <font class="endpoint">/eq/equalisers</font> endpoint.
+        
+        </p><p>A measurement's target settings can be read from the <font class="endpoint">/measurements/:id/target-settings</font>
+        endpoint and changed by a <font class="cmd">POST</font> or <font class="cmd">PUT</font> to that endpoint.
+        
+        </p><p>A measurement's target level can be read from the <font class="endpoint">/measurements/:id/target-level</font>
+        endpoint and changed by a <font class="cmd">POST</font> to that endpoint.
+        
+        </p><p>A measurement's room curve settings can be read from the <font class="endpoint">/measurements/:id/room-curve-settings</font>
+        endpoint and changed by a <font class="cmd">POST</font> or <font class="cmd">PUT</font> to that endpoint.
+        
+        </p><p>A measurement's filters can be read from the <font class="endpoint">/measurements/:id/filters</font>
+        endpoint. A list of FilterSetting objects is returned with the current settings for each filter of the measurement's
+        equaliser. Note that the number and type of filters available depend on the equaliser. The settings for an individual
+        filter can be changed by a <font class="cmd">PUT</font> of a FilterSetting object to the endpoint. Multiple (or all)
+        filters can be changed by a <font class="cmd">POST</font> of a FilterList object to the endpoint.
+        
+        </p><p>A measurement's EQ target response can be read from the <font class="endpoint">/measurements/:id/target-response</font>
+        endpoint. A FrequencyResponse object is returned, with a start frequency, a points-per-octave figure 
+        and a Base64-encoded string of response magnitudes. The default unit for the response data is SPL but other units 
+        can be requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be 
+        read from <font class="endpoint">/measurements/frequency-response/units</font>. The data returned is log spaced
+        at 96 PPO unless there is a ppo query value in the url, e.g. ?ppo=48.
+        
+        </p><p>The frequency response for the predicted result of a measurement's EQ filters can be obtained by a <font class="cmd">GET</font> at  
+        <font class="endpoint">/measurements/:id/eq/frequency-response</font>. A FrequencyResponse object is 
+        returned, with a smoothing setting, a start frequency, a points-per-octave figure (for log-spaced data) or a frequency step value 
+        (for linear-spaced data), and Base64-encoded strings of response magnitudes and phases generated from 
+        the raw bytes of the 32-bit float magnitude and phase values at each frequency. The default unit for the magnitude 
+        data is SPL but other units can be requested by including a unit query value in the url, e.g. ?unit=dBFS. The 
+        list of units available can be read from <font class="endpoint">/measurements/frequency-response/units</font>.
+        The default smoothing is whatever the measurement currently uses, but other smoothings can be requested by 
+        including a smoothing query value in the url, e.g. ?smoothing="1/12". The list of smoothing choices can be 
+        read from <font class="endpoint">/measurements/frequency-response/smoothing-choices</font>. Whether the returned 
+        data is log-spaced or linear-spaced depends on the measurement, but log-spaced data can be forced by including
+        a ppo query value in the url, e.g. ?ppo=96. Note that to avoid sampling artefacts log-spaced data will be smoothed 
+        to ppo/2 if a greater smoothing has not already been applied.
+
+        </p><p>The group delay for the predicted result of a measurement's EQ filters can be obtained by a <font class="cmd">GET</font> at  
+        <font class="endpoint">/measurements/:id/eq/group-delay</font>. A FrequencyResponse object is 
+        returned, with a smoothing setting, a start frequency, a points-per-octave figure (for log-spaced data) or 
+        a frequency step value (for linear-spaced data), and Base64-encoded strings of the group delay in the 
+        magnitudes field. The unit for the group delay data is seconds. Smoothing and ppo options are the same as 
+        frequency response queries.
+
+        </p><p>The impulse response for for the predicted result of a measurement's EQ filters (if the measurement itself 
+        has an impulse response) can be obtained by a <font class="cmd">GET</font>
+        at  <font class="endpoint">/measurements/:id/eq/impulse-response</font>. An ImpulseResponse object is returned, 
+        with a start time, a description of the timing reference used, a sample interval in seconds, a sample rate in 
+        Hz and a Base64-encoded string of response data. The default unit for the data is Percent but other units can 
+        be requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be 
+        read from <font class="endpoint">/measurements/impulse-response/units</font>. Impulse response queries can 
+        return the windowed portion of the data by including a query value ?windowed=true in the url. Data is normalised 
+        by default, for data that is not normalised include a query value ?normalised=false in the url.
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/measurements/eq/commands</font> 
+        endpoint returns a list of EQ commands, including "Calculate target level", "Match target",
+        "Optimise gains", "Optimise gains and Qs", "Optimise gains, Qs and Fcs", "Generate predicted measurement",
+        "Generate filters measurement" and "Generate target measurement". To issue a command <font class="cmd">POST</font> it to
+        the <font class="endpoint">/measurements/:id/eq/command</font> endpoint. None of the commands require parameters.
+        The result can be read from <font class="endpoint">/measurements/process-result</font> but may not be 
+        available immediately, some commands take time to complete. To add a subscription to be notified of progress
+        during EQ target matching see the <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#eqprogress"><font class="endpoint">/eq/subscribe</font></a> endpoint.
+
+        </p><h3><a name="groups">Groups</a></h3>
+        
+        <p>Measurements may be part of a group. The <font class="endpoint">/groups</font> endpoint provides access 
+        to any groups REW has generated or loaded. Groups are referenced by their UUID, as group names may be changed
+        by the user. The UUID for a group is available from the GroupInfo. If a measurement is in a group the group 
+        name, notes and UUID will be included in the measurement's summary. The current list of measurements in a group 
+        can be obtained by a <font class="cmd">GET</font> at the <font class="endpoint">/groups/:uuid/measurements</font>
+        endpoint. A measurement can be placed in a group by posting a MeasurementSummary containing the measurement's UUID
+        to <font class="endpoint">/groups/:uuid/measurements</font> or by posting a MeasurementSummary with the required 
+        group UUID at the <font class="endpoint">/measurements/:id/</font> endpoint for the measurement. The MeasurementSummary 
+        only needs to contain the measurement's UUID, other fields may be omitted.
+        
+        </p><p>A new group can be created by posting a GroupInfo object to the <font class="endpoint">/groups</font>
+        endpoint. Any UUID in the GroupInfo object will be ignored. The new group will be returned as a GroupInfo 
+        object including its UUID. If the name in the GroupInfo object already exists in a group there will be a
+        bad request response.
+        
+        </p><p>Individual groups may be accessed by including their UUID in the path. A group's name or notes may be 
+        changed by <font class="cmd">PUT</font> of a GroupInfo object with the fields to change to the 
+        <font class="endpoint">/groups/:uuid</font> endpoint.
+
+        </p><p>A <font class="cmd">DELETE</font> at the <font class="endpoint">/groups/:uuid</font>
+        endpoint deletes that group, <font class="cmd">DELETE</font> at the <font class="endpoint">/groups</font>
+        endpoint deletes all the groups. <b>N.B. There are no delete confirmations, use with care!</b>
+        
+        </p><p>A <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified of any changes that are made
+        to the list of groups, including groups being added or deleted. There are no parameters for group 
+        subscriptions. The change notifications are conveyed in a GroupsListChange object, which has a string with 
+        a description of the type of change and the ID, name and notes for the group changed.
+        
+        </p><h3><a name="measure">Measure</a></h3>
+        
+        <p>The <font class="endpoint">/measure</font> endpoint provides access to REW's measurement capabilities.
+        A <font class="cmd">GET</font> at the <font class="endpoint">/measure/commands</font> endpoint returns the 
+        list of commands, to issue a command <font class="cmd">POST</font> it to the 
+        <font class="endpoint">/measure/command</font> endpoint. The commands allow different types of measurement 
+        (SPL, impedance, impedance calibration) to be made. There is also a command to cancel a measurement that is 
+        in progress.
+
+        </p><p>The <font class="endpoint">/measure/naming</font> endpoint provides access to the naming settings.
+        They can be changed by <font class="cmd">POST</font> or <font class="cmd">PUT</font>, the response will show 
+        the format of the next measurement name. The options for naming can be read from 
+        <font class="endpoint">/measure/naming/naming-options</font>. If a date or time is being added to the measurement name
+        the formats for that can be read from <font class="endpoint">/measure/naming/date-time-formats</font>. The
+        empty string format option "" uses the default date and time format for the machine.
+
+        </p><p>The <font class="endpoint">/measure/notes</font> endpoint provides access to the notes that will be
+        included in the next measurement made. They can be changed or set by <font class="cmd">POST</font>.
+
+        </p><p>The measurement level can be read and set at the <font class="endpoint">/measure/level</font>
+        endpoint. A variety of units are supported, the list of accepted units is available at 
+        <font class="endpoint">/measure/level/units</font>. The default unit is dBFS, if a unit 
+        is not specified when setting level dBFS will be assumed. 
+        
+        </p><p>The <font class="endpoint">/measure/protection-options</font> endpoint provides access to the options
+        to abort measurements if heavy clipping is detected on the input or if the SPL exceeds a limit. They can 
+        be changed by <font class="cmd">POST</font> or <font class="cmd">PUT</font>.
+
+        </p><p>The <font class="endpoint">/measure/sweep/configuration</font> endpoint provides access to the measurement sweep
+        configuration, including start frequency, end frequency, length and whether to fill silence with dither.
+        The configuration can be changed using <font class="cmd">POST</font> or <font class="cmd">PUT</font>.
+        
+        </p><p>The <font class="endpoint">/measure/sweep/repetitions</font> endpoint provides access to the number of
+        sweep repetitions. The number can be changed using <font class="cmd">POST</font>. Note that multiple
+        sweeps cannot be used with USB mics or when using the acoustic or wired timing reference modes. 
+        
+        </p><p>The <font class="endpoint">/measure/timing</font> endpoint provides access to settings for the timing
+        reference. There are endpoints to get and set the reference (<font class="endpoint">/measure/timing/reference</font>)
+        and further endpoints to configure the options for the chosen reference. 
+        
+        </p><p>The <font class="endpoint">/measure/timing-offset</font> endpoint provides access to the timing offset to apply
+        when using a timing reference. The value can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The <font class="endpoint">/measure/playback-mode</font> endpoint provides access to the playback mode. 
+        The value can be changed using <font class="cmd">POST</font>, the options can be read from 
+        <font class="endpoint">/measure/playback-mode/choices</font>. The stimulus file for file playback
+        is set by <font class="cmd">POST</font>ing the path to <font class="endpoint">/measure/file-playback-stimulus</font>.
+        
+        </p><p>The <font class="endpoint">/measure/measurement-mode</font> endpoint provides access to the measurement mode,
+        for single, repeated, ramped or sequential measurements. The value can be changed using <font class="cmd">POST</font>, 
+        the options can be read from <font class="endpoint">/measure/measurement-mode/choices</font>. 
+        
+        </p><p>The <font class="endpoint">/measure/number-of-repetitions</font> endpoint provides access to the number of
+        measurements that will be made when measuring SPL in repeated or ramped measurement mode with playback from REW. The value 
+        can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The start and end levels for ramped measurements can be read and set at the 
+        <font class="endpoint">/measure/start-level</font> and <font class="endpoint">/measure/end-level</font>
+        endpoints. A variety of units are supported, the list of accepted units is available at 
+        <font class="endpoint">/measure/level/units</font>. The default unit is dBFS, if a unit 
+        is not specified when setting level dBFS will be assumed. 
+        
+        </p><p>The <font class="endpoint">/measure/sequential-channels</font> endpoint provides access to the list of channels
+        that will be measured when measuring SPL in sequential measurement mode with playback from REW. The list can be 
+        changed using <font class="cmd">POST</font>. The full list of channel choices can be read from 
+        <font class="endpoint">/measure/sequential-choices</font>.
+        
+        </p><p>The <font class="endpoint">/measure/start-delay</font> endpoint provides access to the delay in seconds
+        before a measurement starts. The value can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The <font class="endpoint">/measure/invert-second-output</font> endpoint provides access to 
+        whether to invert the second output when two outputs are driven. The value can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The <font class="endpoint">/measure/fill-silence-with-dither</font> endpoint provides access to setting for
+        whether to fill silent parts of the output with 16-bit dither to ensure the replay path is active. The value can 
+        be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The <font class="endpoint">/measure/capture-noise-floor</font> endpoint provides access to setting for
+        whether to capture the noise floor before an SPL measurement. The value can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>A <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified of progress during a measurement. 
+        There are no parameters for measure subscriptions. The change notifications are conveyed as a string. 
+        
+        
+        </p><h3><a name="alignment-tool">Alignment tool</a></h3>
+        
+        <p>The <font class="endpoint">/alignment-tool</font> endpoint provides access to REW's alignment tool.
+        See <a href="https://www.roomeqwizard.com/help/help_en-GB/html/graph_allspl.html#alignmenttool">Alignment tool</a> for details of the operation of the tool. 
+
+        </p><p>A <font class="cmd">GET</font> at <font class="endpoint">/alignment-tool/commands</font> returns the 
+        list of commands the tool accepts. Use <font class="cmd">POST</font> to send a command to 
+        <font class="endpoint">/alignment-tool/command</font>. The alignment mode is at the <font class="endpoint">/alignment-tool/mode</font>
+        endpoint. The choice of modes can be read from <font class="endpoint">/alignment-tool/modes</font>. The
+        frequency at which the alignment is performed is at the <font class="endpoint">/alignment-tool/frequency</font>
+        endpoint. The alignment is performed on a pair of measurements A and B, the endpoints for the index of
+        each of those measurements are <font class="endpoint">/alignment-tool/index-a</font> and
+        <font class="endpoint">/alignment-tool/index-b</font>. The gain, delay and invert for each measurement 
+        have individual endpoints to <font class="cmd">GET</font> them, they can be changed by <font class="cmd">POST</font>.
+        The allowed delay range can be read from <font class="endpoint">/alignment-tool/max-positive-delay</font>
+        and <font class="endpoint">/alignment-tool/max-negative-delay</font> and changed by <font class="cmd">POST</font>.
+        After carrying out an alignment the new delay in milliseconds for measurement B can be read from the 
+        <font class="endpoint">/alignment-tool/delay-b</font> endpoint. A FrequencyResponse object for the aligned 
+        sum can be read from <font class="endpoint">/alignment-tool/aligned-frequency-response</font>. If
+        the impulse alignment mode is being used the filtered impulse responses can be read from
+        <font class="endpoint">/alignment-tool/filtered-impulse-response-a</font> and 
+        <font class="endpoint">/alignment-tool/filtered-impulse-response-b</font>.
+        
+        </p><p>If the alignment command has a "resultUrl" parameter the result of the command will be posted to the URL
+        as a ProcessResult object. The result can also be read from <font class="endpoint">/alignment-tool/result</font>.
+        
+        </p><h3><a name="eq">EQ defaults</a></h3>
+        
+        <p>The <font class="endpoint">/eq</font> endpoint provides access to the default EQ settings.
+        The list of equalisers can be read from the <font class="endpoint">/eq/equalisers</font> endpoint, 
+        results for a specific manufacturer can be requested by including a manufacturer query value in 
+        the url, e.g. ?manufacturer="miniDSP". The list of equaliser manufacturers can be read from the 
+        <font class="endpoint">/eq/manufacturers</font> endpoint. The default equaliser to use for new 
+        measurements can be read from <font class="endpoint">/eq/default-equaliser</font> and changed 
+        by posting to that endpoint. Note that changing the default equaliser will not alter the
+        equaliser selection for any existing measurements.
+        
+        </p><p>The default target settings can be read from the <font class="endpoint">/eq/default-target-settings</font>
+        endpoint and changed by a <font class="cmd">POST</font> or <font class="cmd">PUT</font> to that endpoint.
+        
+        </p><p>The default target level can be read from the <font class="endpoint">/eq/default-target-level</font>
+        endpoint and changed by a <font class="cmd">POST</font> to that endpoint.
+        
+        </p><p>The default room curve settings can be read from the <font class="endpoint">/eq/default-room-curve-settings</font>
+        endpoint and changed by a <font class="cmd">POST</font> or <font class="cmd">PUT</font> to that endpoint.
+
+        </p><p>The path to any house curve file being used can be read from the <font class="endpoint">/eq/house-curve</font>
+        endpoint and changed by a <font class="cmd">POST</font> to that endpoint. It can be cleared by a
+        <font class="cmd">DELETE</font> at that endpoint or by posting an empty string. The log interpolation flag can
+        be set or cleared by POSTing true or false to <font class="endpoint">/eq/house-curve-log-interpolation</font>, 
+        that should be done before setting the file path.
+        
+        </p><p>The settings used when matching a response to a target can be read from the 
+        <font class="endpoint">/eq/match-target-settings</font> endpoint and changed by a 
+        <font class="cmd">POST</font> or <font class="cmd">PUT</font> to that endpoint.
+        
+        </p><p>The <font class="endpoint">/eq/command</font> endpoint accepts an EQCommand which can be
+        used to generate a measurement from the default target response. The full list of EQCommands
+        can be read from the <font class="endpoint">/eq/commands</font> endpoint but most are only 
+        applicable when used at the <font class="endpoint">/measurements/:id/eq/command</font> endpoint.
+        
+        </p><h4><a name="eqprogress">EQ matching progress</a></h4>
+        
+        <p>A <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified of progress during 
+        EQ matching. There are no parameters for EQ subscriptions.
+        
+        </p><h3><a name="generator">Generator</a></h3>
+        
+        <p>The <font class="endpoint">/generator</font> endpoint provides full control of REW's 
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/siggen.html">signal generator</a>. A <font class="cmd">GET</font> at the 
+        <font class="endpoint">/generator/status</font> endpoint returns its current status, including 
+        whether it is enabled, whether it is playing, the current signal selected and the output level. 
+        The generator is not enabled if there is no available audio output. 
+        
+        </p><p>The <font class="endpoint">/generator/signal</font> endpoint is for signal selection and
+        configuration. A <font class="cmd">GET</font> at the signal endpoint returns the currently
+        selected signal, a <font class="cmd">PUT</font> selects a new signal. The list of available
+        signals can be retrieved by a <font class="cmd">GET</font> at <font class="endpoint">/generator/signals</font>.
+        
+        </p><p>Each signal has an associated set of configuration options. For the current signal they 
+        are at <font class="endpoint">/generator/signal/configuration</font>. The configurations for 
+        other signals can be accessed at <font class="endpoint">/generator/signals/{signalname}/configuration</font>.
+        Details of the effect of the configuration settings are in the <a href="https://www.roomeqwizard.com/help/help_en-GB/html/siggen.html">signal generator help</a>.
+        Note that some settings are shared between signals. For example, the addDither setting for the sine signal 
+        is also used by the square signal and the sawtooth signal, the ditherBits setting for the sine signal is
+        also used for other signals that have an option to add dither.
+        Configuration options can be updated collectively or individually by <font class="cmd">POST</font>
+        or <font class="cmd">PUT</font> to the configuration endpoint using the setting names and types
+        returned in the <font class="cmd">GET</font> response. Partial configuration are accepted by both 
+        <font class="cmd">PUT</font> and <font class="cmd">POST</font>. The full configuration will often 
+        contain settings that are specific to a particular mode of a signal and do not need to be included
+        when using other modes, for example the noise configurations have setting for custom noise filtering
+        which are only applicable when using the custom option.
+        
+        </p><p>Some signals accept commands, currently these are the tone group of signals which have commands
+        to step to the previous or next one-third octave centre frequency.  A <font class="cmd">GET</font> at 
+        <font class="endpoint">/generator/signal/commands</font> returns the list of commands the current signal 
+        accepts, which may be empty. The commands for other signals can be accessed at 
+        <font class="endpoint">/generator/signals/{signalname}/commands</font>. Only the current signal can accept 
+        commands, use <font class="cmd">POST</font> to send a command to <font class="endpoint">/generator/signal/command</font>.
+
+        </p><p>The generator output level can be read and set at the <font class="endpoint">/generator/level</font>
+        endpoint. The generator supports a variety of units for output level, the list of accepted units is 
+        available at <font class="endpoint">/generator/level/units</font>. The default unit is dBFS, if a unit 
+        is not specified when setting level dBFS will be assumed. 
+        
+        </p><p>The generator output frequency can be read and set at the <font class="endpoint">/generator/frequency</font>
+        endpoint. When setting frequency the unit can be Hz, kHz or absent. If absent Hz is assumed. If the current 
+        signal does not have a frequency setting a 400 Bad Request status will be returned.
+        
+        </p><p>The <font class="endpoint">/generator/invert-second-output</font> endpoint provides access to 
+        whether to invert the second output when two outputs are driven. The value can be changed using <font class="cmd">POST</font>. 
+        
+        </p><p>The generator has two protection settings that will stop the generator if the input signal exceeds
+        a dB SPL threshold or if excessive clipping is detected on the input. Those settings can be read and 
+        configured at the <font class="endpoint">/generator/protection</font> endpoint.
+        
+        </p><p>The generator is started and stopped by using <font class="cmd">POST</font> to send a command
+        to <font class="endpoint">/generator/commands</font>. A <font class="cmd">GET</font> at the commands endpoint 
+        returns the list of commands the generator accepts.
+
+        </p><h3><a name="spl-meter">SPL meter</a></h3>
+        
+        <p>The <font class="endpoint">/spl-meter/</font> endpoint provides access to the REW SPL meters and the SPL readings.
+        REW can have up to four SPL meters with a Pro upgrade or one without. The meter being addressed is identified by a
+        numeric ID after the endpoint, e.g. <font class="endpoint">/spl-meter/1/</font> for the first SPL meter.
+        An SPL meter is opened, closed, started, stopped or reset by posting a command to the <font class="endpoint">/spl-meter/{id}/command</font> endpoint. 
+        The list of commands can be read from the <font class="endpoint">/spl-meter/commands </font> endpoint. 
+        
+        </p><p>SPL meters are configured by sending an SPLMeterConfiguration to the 
+        <font class="endpoint">/spl-meter/{id}/configuration</font> endpoint. The SPLMeterConfiguration includes
+        a display mode, weighting and filter setting. Note that the display mode only affects the meter display, 
+        data read from the meter always include SPL, Leq and SEL values. The list of display modes can be read from the 
+        <font class="endpoint">/spl-meter/modes</font> endpoint. The list of weightings can be read from the 
+        <font class="endpoint">/spl-meter/weightings</font> endpoint. The list of filters can be read from the 
+        <font class="endpoint">/spl-meter/filters</font> endpoint. Here is an example configuration:
+</p><pre>{
+  "mode": "SPL",
+  "weighting": "C",
+  "filter": "Slow",
+  "highPassActive": false,
+  "rollingLeqActive": true,
+  "rollingLeqMinutes": 15
+}</pre>
+        
+        <p>An SPL meter can be calibrated using an external source by posting a command to the 
+        <font class="endpoint">/spl-meter/{id}/command</font> endpoint with the calibration dB SPL 
+        figure as a parameter. The SPL meter must be running to calibrate it. Here is an example Calibrate command:
+</p><pre>{
+  "command": "Calibrate",
+  "parameters": [
+    "94.0"
+  ]
+}</pre>
+        
+        <p>The last SPL meter update can be read from the <font class="endpoint">/spl-meter/{id}/levels</font> endpoint.
+        That will return the last SPLValues object generated by an update. More commonly levels would be 
+        monitored through a <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a>. SPLValues includes SPL, Leq and SEL figures. 
+</p><pre>{
+  "meterNumber": 1,
+  "weighting": "C",
+  "filter": "Slow",
+  "spl": 96.9540023803711,
+  "leq": 96.91223907470703,
+  "isRollingLeq": true,
+  "rollingLeqMinutes": 15,
+  "leq1m": 96.91223907470703,
+  "leq10m": 96.91223907470703,
+  "sel": 110.3396232402612,
+  "elapsedTime": 22.015999999999995}
+</pre>
+        
+        <h3><a name="spl-logger">SPL logger</a></h3>
+        
+        <p>The <font class="endpoint">/spl-logger/</font> endpoint provides access to the REW SPL logger.
+        The logger is opened, closed, started or stopped by posting a command to the 
+        <font class="endpoint">/spl-logger/command</font> endpoint. The list of commands can be read 
+        from the <font class="endpoint">/spl-logger/commands </font> endpoint. Log files can be opened or saved
+        by sending a Load or Save command with the filename as a parameter. The Save command can have a note
+        as an optional second parameter.
+        
+        </p><p>The SPL logger is configured by sending an SPLLoggerConfiguration to the 
+        <font class="endpoint">/spl-logger/configuration</font> endpoint. Here is an example configuration:
+</p><pre>{
+  "showTimesAsTimeOfDay": true,
+  "logToFileUsingDateAsFilename": true
+}</pre>
+        
+        <h3><a name="rta">RTA</a></h3>
+        
+        <p>The <font class="endpoint">/rta</font> endpoint provides control of REW's 
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/spectrum.html">RTA</a>.  A <font class="cmd">GET</font> at the <font class="endpoint">/rta/commands</font> 
+        endpoint returns the list of commands, to issue a command <font class="cmd">POST</font> it to
+        the <font class="endpoint">/rta/command</font> endpoint.
+        
+        </p><p>Among the RTA commands is "Save graph image". The image capture settings can be read 
+        and configured using the <font class="endpoint">/rta/image-capture-settings</font> endpoint.
+        
+        </p><p>The RTA graph Y axis unit can be read and set from the <font class="endpoint">/rta/y-axis</font>
+        endpoint. The list of axis units available can be read from <font class="endpoint">/rta/y-axis/units</font>.
+        The graph limits can be read and set from the <font class="endpoint">/rta/graph-limits</font>
+        endpoint. The graph cursor X position can be read and set from the <font class="endpoint">/rta/cursor-x</font>
+        endpoint.
+
+        </p><p>The RTA setup can be queried or set via the <font class="endpoint">/rta/configuration</font>,
+        <font class="endpoint">/rta/appearance-configuration</font> and <font class="endpoint">/rta/distortion-configuration</font>
+        endpoints.
+        
+        </p><p>The current status of the RTA (whether it is enabled and whether it is running) can be read from the 
+        <font class="endpoint">/rta/status</font> endpoint. Rather than polling status with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified whenever the RTA status is updated. 
+        There are no parameters for status updates.
+        
+        </p><p>The current RTA input level can be read from the <font class="endpoint">/rta/levels</font> endpoint, that
+        returns a list of RTALevel structures. The list has one RTALevel entry unless stereo inputs are being captured,
+        when there are two. The data has a nanosecond timestamp and a running sum of the number of samples processed by 
+        the RTA since it was last started or restarted. The default unit for the level data is SPL but other units can be 
+        requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be read from 
+        <font class="endpoint">/rta/levels/units</font>. Rather than polling levels with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified whenever the RTA levels are updated. 
+        The subscription parameters can contain the required unit, for example:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/levels",
+  "parameters": {unit: "dBFS"}
+}            
+</pre>
+                
+        <p>The rms and peak RTA responses can be read from the <font class="endpoint">/rta/captured-data</font> and
+        <font class="endpoint">/rta/captured-peak-data</font> endpoints respectively. A FrequencyResponse object is 
+        returned, with a nanosecond timestamp, a running sum of the number of samples processed by the RTA since it was 
+        last started or restarted, a smoothing setting, a start frequency, a points-per-octave figure (for fractional octave RTA captures) or
+        a frequency step value (for spectrum captures), and a Base64-encoded string of response magnitudes generated from 
+        the raw bytes of 32-bit float magnitude values at each frequency. The default unit for the magnitude data is SPL but other units 
+        can be requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be read 
+        from <font class="endpoint">/rta/captured-data/units</font>. Rather than polling with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified whenever the RTA captured or captured peak 
+        data are updated. The subscription parameters can contain the required unit, for example:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/captured",
+  "parameters": {unit: "dBFS"}
+}            
+</pre>
+        <p>When multiple inputs are being captured the parameters can contain an input index between 1 and the number of inputs,
+        e.g index: 2. If there is no input index the rms average of the inputs is returned. 
+        
+        </p><p>The current <a name="rtadistortion">RTA input distortion</a> results can be read from the <font class="endpoint">/rta/distortion</font> endpoint, that
+        returns a list of RTADistortion structures. The list has one RTADistortion entry unless stereo inputs are being captured,
+        when there are two. The data has a nanosecond timestamp and a running sum of the number of samples processed by 
+        the RTA since it was last started or restarted. The default unit for the level values is SPL but other units can be 
+        requested by including a unit query value in the url, e.g. ?unit=dBFS. The list of units available can be read from 
+        <font class="endpoint">/rta/distortion/units</font>. The default unit for the relative distortion values is dB but percent can be 
+        requested by including a distortion query value in the url, e.g. ?distortion=percent. The list of relative distortion units 
+        available can be read from <font class="endpoint">/rta/distortion/relative-units</font>. Rather than polling with <font class="cmd">GET</font> a
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified whenever the RTA distortion results are updated. 
+        The subscription parameters can contain the required units, for example:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/distortion",
+  "parameters": {unit: dBFS, distortion: percent}
+}            
+</pre>
+        
+        <h3><a name="stepped-measurement">Stepped measurement</a></h3>
+        
+        <p>The <font class="endpoint">/stepped-measurement</font> endpoint provides control of REW's 
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/spectrum.html#steppedsine">Stepped measurement</a> features. 
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/types</font> 
+        endpoint returns the list of measurement types.
+        A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/type</font>
+        endpoint returns the currently selected type, to select a type <font class="cmd">POST</font> it to
+        the <font class="endpoint">/stepped-measurement/type</font> endpoint.
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/frequency-span</font>
+        endpoint returns the current start frequency (Hz), end frequency (Hz) and PPO step for a measurement vs 
+        frequency as a SteppedFreqSpan object. To change the span <font class="cmd">POST</font> a SteppedFreqSpan 
+        object to the <font class="endpoint">/stepped-measurement/frequency-span</font> endpoint. The list of accepted
+        PPO values can be read from <font class="endpoint">/stepped-measurement/ppo-values</font>.
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/level-span</font>
+        endpoint returns the current start level (dBFS), end level (dBFS) and level step (dB) for a measurement
+        vs level as a SteppedLevelSpan object. To change the span <font class="cmd">POST</font> a SteppedLevelSpan 
+        object to the <font class="endpoint">/stepped-measurement/level-span</font> endpoint.
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/fft-configuration</font>
+        endpoint returns the current FFT configuration for stepped measurements. To change the configuration 
+        <font class="cmd">POST</font> a SteppedFFTConfiguration object to the 
+        <font class="endpoint">/stepped-measurement/fft-configuration</font> endpoint.
+        
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/options</font>
+        endpoint returns the current option settings for stepped measurements. To change the options 
+        <font class="cmd">POST</font> a SteppedOptions object to the 
+        <font class="endpoint">/stepped-measurement/options</font> endpoint. Other RTA-related options such
+        as distortion HP or LP should be configured through the <font class="endpoint">/rta</font> endpoint.
+
+        </p><p>A <font class="cmd">GET</font> at the <font class="endpoint">/stepped-measurement/commands</font> 
+        endpoint returns the list of commands, to issue a command <font class="cmd">POST</font> it to
+        the <font class="endpoint">/stepped-measurement/command</font> endpoint. The Start command requires
+        a settlingTimems parameter and either a leveldBFS, frequencyHz or imdStimulus parameter depending on the 
+        type of measurement. Here is an example of starting a THD vs frequency measurement:<br>
+</p><pre>{
+  "command": "start",
+  "parameters": {
+    "settlingTimems": 0,
+    "leveldBFS": -1.0
+  }
+}
+</pre>
+
+        <p>The progress of a stepped measurement can be read from the <font class="endpoint">/stepped-measurement/progress</font>
+        endpoint. That returns a SteppedProgress object, like the example below<br>
+</p><pre>{
+  "point": 5,
+  "points": 31,
+  "message": "5/31, approx 1m 8s remaining",
+  "timeRemainingSeconds": 68
+}
+</pre>
+        <p>Rather than polling for progress, a <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be 
+        added to be notified of progress updates. There are no parameters for progress subscriptions.
+        
+        </p><p>A <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to be notified of the distortion 
+        results for each point as they are generated. That is done by making a <font class="cmd">POST</font> 
+        to the <font class="endpoint">/stepped-measurement/results/subscribe</font> endpoint. The results
+        are returned as RTADistortion objects, see the <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#rtadistortion">RTA section</a> for the 
+        associated parameters. For example, to have updates posted to a 
+        <font class="endpoint">/stepped-results</font> endpoint a subscription could be:<br>
+</p><pre>{
+  "url": "http://127.0.0.1:5374/stepped-results",
+  "parameters": {unit: dBFS, distortion: percent}
+}
+</pre>
+
+        <h3><a name="import">Import</a></h3>
+        
+        <p>The <font class="endpoint">/import</font> endpoint provides access to import functionality. 
+        
+        </p><p>Importing can take some time, a <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#subscriptions">subscription</a> can be added to
+        be notified of import completion. There are no parameters for import subscriptions. Alternatively 
+        the <a href="https://www.roomeqwizard.com/help/help_en-GB/html/api.html#blocking">blocking</a> mode can be used, in which case the API will not respond until 
+        the import has completed.
+        
+        </p><h4><a name="importfrequencyresponse">Import frequency response</a></h4>
+
+        <p>The <font class="endpoint">/import/frequency-response</font> endpoint allows the path
+        to a text frequency response file to be set via a FilePath object. 
+        Note that backslashes in file paths must be escaped (meaning a double backslash is required), 
+        or forward slashes may be used. FilePath has a string
+        for the path to the response file and an optional string for the channels that should be read from 
+        the file, not used for frequency response files. When the file is loaded it 
+        will generate a new measurement, that can be monitored by subscribing to the 
+        <font class="endpoint">/measurements</font> endpoint. The import may take some time. An import completed 
+        message will be posted to subscribers when an import has finished. A <font class="cmd">GET</font>
+        at the <font class="endpoint">/import/frequency-response</font> endpoint will return the path of the 
+        last file that finished importing. Any back slash in the path will be replaced by forward slash.  
+        An internal queue allows multiple imports to be requested without waiting for each to finish, 
+        up to 9 imports can be pending.
+
+        </p><h4><a name="importimpulseresponse">Import impulse response</a></h4>
+
+        <p>The <font class="endpoint">/import/impulse-response</font> endpoint allows the path
+        to an impulse response file to be set via a FilePath object. 
+        Note that backslashes in file paths must be escaped (meaning a double backslash is required), 
+        or forward slashes may be used. FilePath has a string
+        for the path to the response file and an optional string for the channels that should be read from 
+        the file if it has more than one channel. If the channels string is omitted or set to "All" all of
+        the channels will be loaded, otherwise the specified channels will be loaded. Channels are numbered 
+        from 1 and channels to be loaded may be specified individually separated by commas or as a range 
+        separated by a dash, for example "1, 3, 5" or "2-4" or "1-3, 5, 7". As channels of data are loaded 
+        they will generate new measurements, that can be monitored by subscribing to the 
+        <font class="endpoint">/measurements</font> endpoint. The import may take some time. An import completed 
+        message will be posted to subscribers when an import has finished. A <font class="cmd">GET</font>
+        at the <font class="endpoint">/import/impulse-response</font> endpoint will return the path of the 
+        last file that finished importing. Any back slash in the path will be replaced by forward slash.  
+        An internal queue allows multiple imports to be requested without waiting for each to finish, 
+        up to 9 imports can be pending.
+
+        </p><h4><a name="importfreqresponsedata">Import frequency response data</a></h4>
+
+        <p>The <font class="endpoint">/import/frequency-response-data</font> endpoint allows 
+        a frequency response to be set via a FrequencyResponseData object which contains the data
+        as Base64-encoded strings generated from arrays of 32-bit float values. The FrequencyResponseData
+        object has fields for an identifier, which is used as the name of the resulting measurement; 
+        a boolean to indicate whether the data is impedance (ohms) or SPL; a start frequency; the 
+        number of points per octave if the data is log spaced or the frequency step if it is linearly 
+        spaced; a Base64-encoded string for the magnitude values (ohms or dB SPL) and an optional 
+        Base64-encoded string for the corresponding phase values in degrees.
+        The import may take some time. An import completed 
+        message will be posted to subscribers when an import has finished. A <font class="cmd">GET</font>
+        at the <font class="endpoint">/import/frequency-response-data</font> endpoint will return the ID of the 
+        last data that finished importing.  
+        An internal queue allows multiple imports to be requested without waiting for each to finish, 
+        up to 9 imports can be pending. Here is an example, omitting the base 64 data for brevity:<br>
+</p><pre>{
+  "identifier": "my import",
+  "isImpedance": false,
+  "startFreq": 20,
+  "ppo": 48,
+  "magnitude": "..."
+}
+</pre>
+
+        <h4><a name="importimpulseresponsedata">Import impulse response data</a></h4>
+
+        <p>The <font class="endpoint">/import/impulse-response-data</font> endpoint allows 
+        an impulse response to be set via an ImpulseResponseData object which contains the data
+        as a Base64-encoded string generated from an array of 32-bit float values. The ImpulseResponseData
+        object has fields for an identifier, which is used as the name of the resulting measurement; a start time
+        for the data; the sample rate; the SPL offset (the dB value to add to the data to obtain SPL) and
+        a boolean to indicate whether the calibration files for the current measurement input should be 
+        applied.
+        The import may take some time. An import completed 
+        message will be posted to subscribers when an import has finished. A <font class="cmd">GET</font>
+        at the <font class="endpoint">/import/impulse-response-data</font> endpoint will return the ID of the 
+        last data that finished importing.  
+        An internal queue allows multiple imports to be requested without waiting for each to finish, 
+        up to 9 imports can be pending. Here is an example, omitting the base 64 data for brevity:<br>
+</p><pre>{
+  "identifier": "my import",
+  "startTime": -1,
+  "sampleRate": 48000,
+  "splOffset": 0,
+  "applyCal": false,
+  "data": "..."
+}
+</pre>
+
+        <h4><a name="importrtafile">Import RTA file</a></h4>
+
+        <p>The <font class="endpoint">/import/rta-file</font> endpoint allows the path
+        to a file for the RTA to process to be set via an RTAFilePath object. Note that backslashes in file 
+        paths must be escaped (meaning a double backslash is required), or forward slashes may be used. 
+        FilePath has a string for the path to the response file and an integer for the channel that should 
+        be read from the file. A string specifies the save option, whether the save the current, peak or both
+        current and peak RTA results. Completion of RTA file import will generate a new measurement, that can be monitored 
+        by subscribing to the <font class="endpoint">/measurements</font> endpoint. 
+        
+        </p><p>RTA file import may take some time. Import progress and an import completed message will be posted 
+        to subscribers. The percentage completion can be read from the 
+        <font class="endpoint">/import/rta-file/progress</font> endpoint. A <font class="cmd">GET</font>
+        at the <font class="endpoint">/import/rta-file</font> endpoint will return the path of the 
+        last file that finished importing. Any back slash in the path will be replaced by forward slash.  
+        An internal queue allows multiple imports to be requested without waiting for each to finish, 
+        up to 9 imports can be pending.
+
+        </p><h4><a name="importsweeprecordings">Import sweep recordings</a></h4>
+
+        <p>The <font class="endpoint">/import/sweep-recordings/stimulus</font> endpoint allows the path
+        to the sweep stimulus file to be read or set. If the file is set successfully the response will
+        contain a summary of the stimulus parameters. If the path has not been set reading the endpoint 
+        will return an empty string, otherwise it will return the file path.  Note that backslashes 
+        in file paths must be escaped (meaning a double backslash is required), or forward slashes may 
+        be used.
+        
+        </p><p>The <font class="endpoint">/import/sweep-recordings/response</font> endpoint allows the path
+        to the sweep response file to be read or set via a FilePath object. If the path has not been set 
+        reading the endpoint will return an empty string, otherwise it will return the last file path set.
+        Note that backslashes in file paths must be escaped (meaning a double backslash is required), 
+        or forward slashes may be used. FilePath has a string
+        for the path to the response file and an optional string for the channels that should be read from 
+        the file if it has more than one channel. If the channels string is omitted or set to "All" all of
+        the channels will be loaded, otherwise the specified channels will be loaded. Channels are numbered 
+        from 1 and channels to be loaded may be specified individually separated by commas or as a range 
+        separated by a dash, for example "1, 3, 5" or "2-4" or "1-3, 5, 7". As channels of data are loaded 
+        they will generate new measurements, that can be monitored by subscribing to the 
+        <font class="endpoint">/measurements</font> endpoint. The import may take some time. An import completed 
+        message will be posted to subscribers when an import has finished. An internal queue allows multiple 
+        imports to be requested without waiting for each to finish, up to 9 imports can be pending.
+
+        </p><h3><a name="roomsim">Room simulator</a></h3>
+        
+        <p>The <font class="endpoint">/roomsim</font> endpoint provides full control of REW's 
+        <a href="https://www.roomeqwizard.com/help/help_en-GB/html/modalsim.html">room simulator</a>. The <font class="endpoint">/roomsim/room-size</font> 
+        endpoint provides access to the room dimensions. The <font class="endpoint">/roomsim/room-is-sealed</font> 
+        endpoint provides access to whether the room should be treated as a sealed volume. The 
+        <font class="endpoint">/roomsim/absorptions</font> endpoint provides access to the room surface
+        absorptions. The <font class="endpoint">/roomsim/sources</font> endpoint is used to retrieve or set 
+        the list of sources in the simulation. The list of recognised source names can be retrieved from the
+        <font class="endpoint">/roomsim/source-names</font> endpoint.
+        
+        </p><p>The offsets to mic positions around the main position can be read and set at the
+        <font class="endpoint">/roomsim/mic-posn-offsets</font> endpoint.
+        
+        </p><p>The calculation options for the simulator can be read and set at the
+        <font class="endpoint">/roomsim/options</font> endpoint.
+        
+        </p><p>Each source can be queried and configured at paths below <font class="endpoint">/roomsim/:src</font>,
+        where :src is one of the recognised source names. The source position in the room can be read or set
+        at <font class="endpoint">/roomsim/:src/position</font>. The configuration of the source (its low frequency 
+        extension, enclosure type etc.) can be read or set at  <font class="endpoint">/roomsim/:src/configuration</font>.
+        
+        </p><p>The frequency response for all sources summed can be read from <font class="endpoint">/roomsim/frequency-response</font>.
+        The response for an individual source can be read from <font class="endpoint">/roomsim/:src/frequency-response</font>.
+        The mic position for which the response is generated must be specified as a query parameter, e.g.
+        ?micposition="Main". 
+        
+        </p><div class="onlineonly" style="font-size: 100%; color: revert;"><a href="https://www.roomeqwizard.com/help/help_en-GB/html/index.html#top" style="color: revert;">Help Index</a></div>
+        
+        <!-- Make the onlineonly text visible via javascript, which does not run in the helpset viewer -->
+        <script type="text/javascript" src="./REW_API_files/OnlineOnly.js.download"></script>
+    
+
+</body></html>

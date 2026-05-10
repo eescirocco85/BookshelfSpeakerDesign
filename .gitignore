@@ -1,0 +1,21 @@
+# OS and editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*.swo
+~$*
+
+# KiCad generated state and backups
+*.kicad_prl
+*-backups/
+.history/
+*.bak
+*.bck
+*.kicad_pcb-bak
+*.sch-bak
+
+# Logs and temporary output
+*.log
+tmp/
+temp/

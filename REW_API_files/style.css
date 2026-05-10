@@ -1,0 +1,36 @@
+/* Style sheet for wizard help pages */
+
+body {	font-family: sans-serif, arial; padding-bottom: 50px; font-size: 100%; }
+p   { line-height: 1.5 }
+a { color: #4076C0}
+td  { line-height: 1.5 }
+sub, sup { line-height: 0; }
+pre {	font-family: monospace, courier; font-weight:bold; color: #488160; }
+em  {	font-style: normal; 
+	font-weight: bold; }
+h1  { 	color: #4076C0; font-size: xx-large; font-weight: bold; }
+h2  { 	color: #4076C0; font-size: x-large; font-weight: bold; }
+h3  { 	color: #4076C0; font-size: large; font-weight: bold; margin-top: 30px; margin-bottom: 0; }
+h4  { 	color: #4076C0; font-size: 100%; font-weight: bold; margin-top: 20px; margin-bottom: 0; }
+dt  {   color: #4076C0;
+        font-size: 100%;
+        font-style: italic; 
+        font-weight: bold;
+        padding-bottom: 8px; }
+dd  {   padding-bottom: 30px;  line-height: 1.5; }
+ul  {   margin-left: 25px; margin-bottom: 10px; margin-top: 5px; }
+ol  {   margin-left: 25px; }
+li  {   padding-left: 10px; margin-top: 2px; margin-bottom: 2px; line-height: 1.5;}
+img, embed, object, video { max-width: 100%; max-height: 100%; }
+ol#index li  {   padding-left: 10px; padding-top: 0; padding-bottom: 1em; line-height: 1 }
+font.keys { font-family: monospace, courier; font-style: normal; font-size: 100%; }
+font.cmd { font-family: monospace, courier; font-style: normal; color: #488160;  }
+font.endpoint { font-family: monospace, courier; font-style: normal; color: #4076C0;  }
+font.avmenu { font-family: monospace, courier; font-weight: bold; }
+font.indicator { font-weight: bold; color: #008000; }
+font.redindicator { font-weight: bold; color: #c00000; }
+font.settings { font-family: sans-serif, arial; color: #4076C0; font-weight: bold; }
+font.heading { font-family: sans-serif, arial; color: #4076C0; font-weight: normal; }
+.onlineonly { font-size: 0%; color: white; }
+.onlineonly a { color: white; }
+.doublespace {line-height: 2;}
