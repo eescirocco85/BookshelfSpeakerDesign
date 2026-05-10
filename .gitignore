@@ -19,3 +19,8 @@ desktop.ini
 *.log
 tmp/
 temp/
+TestAutomation/output/logs/
+
+# Python generated files
+__pycache__/
+*.py[cod]
