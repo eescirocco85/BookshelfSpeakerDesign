@@ -1,6 +1,6 @@
 {
   "base_url": "http://127.0.0.1:4735",
-  "created_at_unix": 1778388920.690711,
+  "created_at_unix": 1778394825.1333585,
   "doc": {
     "basePath": "/",
     "interesting_definitions": {
@@ -931,7 +931,23 @@
       "status": 200
     },
     "/application/errors": {
-      "data": [],
+      "data": [
+        {
+          "message": "<html><table align=\"left\" cols=\"1\" width=\"350\" cellpadding=\"2\"><td>Unable to access the selected device due to:<br><br>Microphone (Scarlett Solo USB) does not have any lines supporting PCM_SIGNED 96000.0 Hz, 16 bit, stereo, 4 bytes/frame,little-endian<br><br>Try a different sample rate<br><br>Make sure that in Windows Settings > Privacy > Microphone Allow desktop apps to access your microphone is On and that the sample rate of the default format in the Windows audio properties for the device matches the REW sample rate.</td></table></html>",
+          "time": "2026-May-09 23:29:24",
+          "title": "Input device error"
+        },
+        {
+          "message": "<html><table align=\"left\" cols=\"1\" width=\"350\" cellpadding=\"2\"><td>Unable to access the selected device due to:<br><br>Speakers (Scarlett Solo USB) does not have any lines supporting PCM_SIGNED 96000.0 Hz, 16 bit, stereo, 4 bytes/frame,little-endian<br><br>Try a different sample rate<br><br>Check that the sample rate of the default format in the Windows audio properties for the device matches the REW sample rate.</td></table></html>",
+          "time": "2026-May-09 23:29:27",
+          "title": "Output device error"
+        },
+        {
+          "message": "<html><table align=\"left\" cols=\"1\" width=\"350\" cellpadding=\"2\"><td>Unable to access the selected device due to:<br><br>Speakers (Scarlett Solo USB) does not have any lines supporting PCM_SIGNED 96000.0 Hz, 16 bit, stereo, 4 bytes/frame,little-endian<br><br>Try a different sample rate<br><br>Check that the sample rate of the default format in the Windows audio properties for the device matches the REW sample rate.</td></table></html>",
+          "time": "2026-May-09 23:29:40",
+          "title": "Output device error"
+        }
+      ],
       "elapsed_ms": 0.0,
       "ok": true,
       "status": 200
@@ -986,9 +1002,154 @@
           "dBFSAt94dBSPL": -22.9897,
           "fullScaleSineVrms": 1.0
         },
-        "currentInputSelection": "Default Device Default Input",
+        "currentInputSelection": "Microphone (Scarlett Solo USB) MICROPHONE (Master Volume)",
         "inputDeviceIsCWeighted": false,
         "separateCalFileForEachInput": false
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/format": {
+      "data": {
+        "inputBits": 16,
+        "outputBits": 16
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/input": {
+      "data": {
+        "input": "MICROPHONE (Master Volume)"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/input-channel": {
+      "data": {
+        "channel": 2
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/input-device": {
+      "data": {
+        "device": "Microphone (Scarlett Solo USB)"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/input-devices": {
+      "data": [
+        "Default Device",
+        "EXCL: Microphone Array (Intel\u00ae Smart Sound Technology for Digital Microphones)",
+        "EXCL: Microphone (Scarlett Solo USB)",
+        "Primary Sound Capture Driver",
+        "Microphone (Scarlett Solo USB)",
+        "Microphone Array (Intel\u00ae Smart Sound Technology for Digital Microphones)"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/inputs": {
+      "data": [
+        "Default Input",
+        "MICROPHONE (Master Volume)"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/num-input-channels": {
+      "data": 2,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/num-input-device-channels": {
+      "data": 2,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/num-output-device-channels": {
+      "data": 2,
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/output": {
+      "data": {
+        "output": "SPEAKER"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/output-channel": {
+      "data": {
+        "channel": "L+R"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/output-channels": {
+      "data": [
+        "L",
+        "R",
+        "L+R"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/output-device": {
+      "data": {
+        "device": "Speakers (Scarlett Solo USB)"
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/output-devices": {
+      "data": [
+        "Default Device",
+        "EXCL: Speaker (Realtek(R) Audio)",
+        "EXCL: Speakers (Scarlett Solo USB)",
+        "Primary Sound Driver",
+        "Speakers (Scarlett Solo USB)",
+        "Speaker (Realtek(R) Audio)"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/outputs": {
+      "data": [
+        "Default Output",
+        "SPEAKER"
+      ],
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/ref-input-channel": {
+      "data": {
+        "channel": 1
+      },
+      "elapsed_ms": 0.0,
+      "ok": true,
+      "status": 200
+    },
+    "/audio/java/stereo-only": {
+      "data": {
+        "enable": true
       },
       "elapsed_ms": 0.0,
       "ok": true,
@@ -1003,7 +1164,7 @@
             "value": 96000.0
           }
         },
-        "currentOutputSelection": "Default Device Default Output"
+        "currentOutputSelection": "Speakers (Scarlett Solo USB) SPEAKER"
       },
       "elapsed_ms": 0.0,
       "ok": true,
@@ -1069,7 +1230,7 @@
     "/generator/level": {
       "data": {
         "unit": "dBFS",
-        "value": -15.0
+        "value": -20.0
       },
       "elapsed_ms": 0.0,
       "ok": true,
@@ -1124,10 +1285,10 @@
     "/generator/status": {
       "data": {
         "enabled": true,
-        "level": -15.0,
+        "level": -20.0,
         "levelUnit": "dBFS",
         "playing": false,
-        "signal": "multitone"
+        "signal": "whitenoise"
       },
       "elapsed_ms": 0.0,
       "ok": true,
@@ -1645,7 +1806,7 @@
   "generator_signal_details": {
     "cea-burst": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 16.2,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1662,7 +1823,7 @@
     },
     "dualtone": {
       "commands": {
-        "elapsed_ms": 31.0,
+        "elapsed_ms": 2.2,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1683,7 +1844,7 @@
     },
     "fsafnoise": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 17.2,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1699,13 +1860,13 @@
     },
     "j-test": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 16.7,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
       },
       "configuration": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 16.6,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1713,7 +1874,7 @@
     },
     "linearsweep": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 2.0,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1734,7 +1895,7 @@
     },
     "logsweep": {
       "commands": {
-        "elapsed_ms": 16.0,
+        "elapsed_ms": 2.5,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1755,7 +1916,7 @@
     },
     "meassweep": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 17.1,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1774,7 +1935,7 @@
     },
     "multitone": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 15.0,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1800,7 +1961,7 @@
     },
     "pinknoise": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 16.3,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1824,7 +1985,7 @@
     },
     "pinkpn": {
       "commands": {
-        "elapsed_ms": 16.0,
+        "elapsed_ms": 13.8,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1849,13 +2010,13 @@
     },
     "quadtone": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 16.6,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
       },
       "configuration": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 14.7,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1863,7 +2024,7 @@
     },
     "sawtooth": {
       "commands": {
-        "elapsed_ms": 16.0,
+        "elapsed_ms": 1.7,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1883,7 +2044,7 @@
     },
     "sine": {
       "commands": {
-        "elapsed_ms": 15.0,
+        "elapsed_ms": 14.5,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1903,7 +2064,7 @@
     },
     "square": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 1.8,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1923,7 +2084,7 @@
     },
     "toneburst": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 15.7,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1945,7 +2106,7 @@
     },
     "tripletone": {
       "commands": {
-        "elapsed_ms": 0.0,
+        "elapsed_ms": 2.1,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1966,7 +2127,7 @@
     },
     "whitenoise": {
       "commands": {
-        "elapsed_ms": 16.0,
+        "elapsed_ms": 2.1,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404
@@ -1989,7 +2150,7 @@
     },
     "whitepn": {
       "commands": {
-        "elapsed_ms": 16.0,
+        "elapsed_ms": 17.3,
         "error": "<html><body><h2>404 Not found</h2></body></html>",
         "ok": false,
         "status": 404

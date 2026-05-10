@@ -32,6 +32,23 @@ DEFAULT_ENDPOINTS = [
     "/audio/configuration",
     "/audio/samplerate",
     "/audio/samplerates",
+    "/audio/java/input-device",
+    "/audio/java/input-devices",
+    "/audio/java/input",
+    "/audio/java/inputs",
+    "/audio/java/input-channel",
+    "/audio/java/ref-input-channel",
+    "/audio/java/num-input-channels",
+    "/audio/java/num-input-device-channels",
+    "/audio/java/output-device",
+    "/audio/java/output-devices",
+    "/audio/java/output",
+    "/audio/java/outputs",
+    "/audio/java/output-channel",
+    "/audio/java/output-channels",
+    "/audio/java/num-output-device-channels",
+    "/audio/java/format",
+    "/audio/java/stereo-only",
     "/audio/input-cal",
     "/audio/output-cal",
     "/input-levels/commands",
@@ -175,8 +192,29 @@ def summarize(capabilities: dict[str, Any]) -> str:
     stepped_types = endpoints.get("/stepped-measurement/types", {}).get("data") or []
     measure_commands = endpoints.get("/measure/commands", {}).get("data") or []
     rta_commands = endpoints.get("/rta/commands", {}).get("data") or []
+    audio_driver = endpoints.get("/audio/driver", {}).get("data") or {}
+    sample_rate = endpoints.get("/audio/samplerate", {}).get("data") or {}
+    input_device = endpoints.get("/audio/java/input-device", {}).get("data") or {}
+    output_device = endpoints.get("/audio/java/output-device", {}).get("data") or {}
+    input_devices = endpoint_values(endpoints.get("/audio/java/input-devices", {}).get("data"))
+    output_devices = endpoint_values(endpoints.get("/audio/java/output-devices", {}).get("data"))
 
     lines.append("REW discovery complete.")
+    lines.append(
+        "Audio: "
+        f"driver={audio_driver.get('driver', '(unknown)')}, "
+        f"sample_rate={sample_rate.get('value', '(unknown)')} {sample_rate.get('unit', '')}".rstrip()
+    )
+    lines.append(f"Selected input device: {input_device.get('device', '(unknown)')}")
+    lines.append(f"Selected output device: {output_device.get('device', '(unknown)')}")
+    scarlett_inputs = [device for device in input_devices if "scarlett" in str(device).lower()]
+    scarlett_outputs = [device for device in output_devices if "scarlett" in str(device).lower()]
+    if scarlett_inputs or scarlett_outputs:
+        lines.append(
+            "Scarlett devices detected: "
+            f"inputs={', '.join(map(str, scarlett_inputs)) or '(none)'}, "
+            f"outputs={', '.join(map(str, scarlett_outputs)) or '(none)'}"
+        )
     lines.append(f"Generator signals ({len(signals)}): {', '.join(map(str, signals))}")
     lines.append(f"Stepped measurement types ({len(stepped_types)}): {', '.join(map(str, stepped_types))}")
     lines.append(f"Measure commands: {', '.join(map(str, measure_commands))}")
@@ -198,6 +236,14 @@ def summarize(capabilities: dict[str, Any]) -> str:
         lines.append(f"Endpoints needing attention ({len(failed)}): {', '.join(failed)}")
 
     return "\n".join(lines)
+
+
+def endpoint_values(data: Any) -> list[Any]:
+    if isinstance(data, dict) and isinstance(data.get("value"), list):
+        return data["value"]
+    if isinstance(data, list):
+        return data
+    return []
 
 
 def discover(base_url: str, output: Path, timeout: float) -> dict[str, Any]:
