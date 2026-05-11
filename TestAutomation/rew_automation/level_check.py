@@ -45,6 +45,7 @@ class LevelCheckResult:
     rta_rms_spl: float | None = None
     rta_rms_a_weighted_spl: float | None = None
     rta_rms_c_weighted_spl: float | None = None
+    measurement_id: str | None = None
 
 
 def run_pink_noise_level_check(
@@ -71,6 +72,7 @@ def run_generator_level_check(
     baseline_samples: list[dict[str, Any]] = []
     active_samples: list[dict[str, Any]] = []
     after_stop_samples: list[dict[str, Any]] = []
+    before_stop_error: Exception | None = None
     started_rta_for_level_reading = before_stop is None
     try:
         _debug_response("/input-levels/command Start", client.post("/input-levels/command", {"command": "Start"}))
@@ -93,6 +95,7 @@ def run_generator_level_check(
                 before_stop(client)
             except Exception as exc:
                 _debug(f"Before-stop hook failed: {exc}")
+                before_stop_error = exc
         _debug("Stopping generator")
         try:
             stop_generator(client)
@@ -108,6 +111,8 @@ def run_generator_level_check(
 
     if setup is None:
         raise RuntimeError("Generator setup did not complete.")
+    if before_stop_error is not None:
+        raise RuntimeError("Generator capture save/rename failed.") from before_stop_error
 
     result = _summarize(
         baseline_samples=baseline_samples,

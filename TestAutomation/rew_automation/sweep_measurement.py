@@ -164,7 +164,7 @@ def rename_and_group_sweep_measurement(
 
 def build_sweep_title(metadata: TestMetadata, level_dbfs: float = DEFAULT_SWEEP_LEVEL_DBFS) -> str:
     stamp = datetime.now().strftime("%Y-%m-%d %H%M%S")
-    return f"{metadata.driver_name} {metadata.test_name} {level_dbfs:g} dBFS {stamp}"
+    return f"{metadata.driver_name} {level_dbfs:g} dBFS {stamp}"
 
 
 def build_sweep_test_name(

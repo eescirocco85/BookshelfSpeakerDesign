@@ -156,7 +156,7 @@ def rename_and_group_fsaf_measurement(
 
 def build_fsaf_title(metadata: TestMetadata, level_dbfs: float) -> str:
     stamp = datetime.now().strftime("%Y-%m-%d %H%M%S")
-    return f"{metadata.driver_name} {metadata.test_name} {level_dbfs:g} dBFS {stamp}"
+    return f"{metadata.driver_name} {level_dbfs:g} dBFS {stamp}"
 
 
 def build_fsaf_notes(

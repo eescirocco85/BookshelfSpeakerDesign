@@ -1,0 +1,105 @@
+{
+  "planName": "3 inch midrange driver comparison",
+  "runMode": "manual_step",
+  "driverNamePrompt": true,
+  "defaults": {
+    "generatorLevelDbfs": -20.0,
+    "rtaCaptureSeconds": 10.0,
+    "sweepLength": "1M",
+    "irLeftWindowMs": 1.0,
+    "irRightWindowMs": 5.0,
+    "groupByTestName": true
+  },
+  "levelMatch": {
+    "id": "level_match_300_2000_100dba",
+    "label": "Pink noise level match",
+    "signal": "pinknoise",
+    "lowHz": 300,
+    "highHz": 2000,
+    "generatorLevelDbfs": -10.0,
+    "targetSplDb": 100.0,
+    "weighting": "A",
+    "toleranceDb": 0.5,
+    "settleSeconds": 5.0,
+    "liveAutoStopSeconds": 30,
+    "liveRtaAveraging": "Exponential 0.50",
+    "manualAction": "Adjust the physical amplifier level until the measured pink-noise level is close to target."
+  },
+  "tests": [
+    {
+      "id": "sweep_150_8000_ir5",
+      "type": "frequency_sweep",
+      "label": "Sweep 150 Hz to 8 kHz",
+      "startHz": 150,
+      "endHz": 8000,
+      "levelDbfs": -20.0,
+      "irRightWindowMs": 5.0
+    },
+    {
+      "id": "sweep_150_8000_ir8",
+      "type": "frequency_sweep",
+      "label": "Sweep 150 Hz to 8 kHz, wider window",
+      "startHz": 150,
+      "endHz": 8000,
+      "levelDbfs": -20.0,
+      "irRightWindowMs": 8.0
+    },
+    {
+      "id": "two_tone_250_1000",
+      "type": "two_tone_rta",
+      "label": "Two tone 250 Hz + 1 kHz",
+      "f1Hz": 250,
+      "f2Hz": 1000,
+      "levelDbfs": -20.0,
+      "captureSeconds": 10.0
+    },
+    {
+      "id": "two_tone_300_1000",
+      "type": "two_tone_rta",
+      "label": "Two tone 300 Hz + 1 kHz",
+      "f1Hz": 300,
+      "f2Hz": 1000,
+      "levelDbfs": -20.0,
+      "captureSeconds": 10.0
+    },
+    {
+      "id": "two_tone_400_1500",
+      "type": "two_tone_rta",
+      "label": "Two tone 400 Hz + 1.5 kHz",
+      "f1Hz": 400,
+      "f2Hz": 1500,
+      "levelDbfs": -20.0,
+      "captureSeconds": 10.0
+    },
+    {
+      "id": "multitone_250_2000",
+      "type": "multitone_rta",
+      "label": "Multitone 250 Hz to 2 kHz",
+      "startHz": 250,
+      "endHz": 2000,
+      "levelDbfs": -20.0,
+      "decadeSpacing": "1/20 decade",
+      "captureSeconds": 10.0
+    },
+    {
+      "id": "multitone_300_2000",
+      "type": "multitone_rta",
+      "label": "Multitone 300 Hz to 2 kHz",
+      "startHz": 300,
+      "endHz": 2000,
+      "levelDbfs": -20.0,
+      "decadeSpacing": "1/20 decade",
+      "captureSeconds": 10.0
+    },
+    {
+      "id": "multitone_400_2000",
+      "type": "multitone_rta",
+      "label": "Multitone 400 Hz to 2 kHz",
+      "startHz": 400,
+      "endHz": 2000,
+      "levelDbfs": -20.0,
+      "decadeSpacing": "1/20 decade",
+      "captureSeconds": 10.0
+    }
+  ]
+}
