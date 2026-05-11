@@ -14,6 +14,7 @@
 | Eminence Alpha 3-8 | 28.6 | 2.4 | 6.86 | 88.6 | 4.4 W | ~289 Hz | ~400 Hz |
 | Beyma 3FR30 | 30 | 2.0 | 6.00 | 90.5 | 2.8 W | ~309 Hz | ~425 Hz |
 | Tang Band W3-2141 | 32 | 1.6 | 5.12 | 87.0 | 6.3 W | ~335 Hz | ~450–500 Hz |
+| Dayton RS52 Dome | 26.4 | 1.0 | 2.64 | 89.4 | 3.6 W | ~467 Hz | ~700 Hz |
 
 ## Notes
 - The "Estimated Low Limit" is where excursion roughly reaches Xmax at 95 dB SPL.
