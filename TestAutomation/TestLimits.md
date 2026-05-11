@@ -9,7 +9,7 @@
 
 | Driver | Sd (cm²) | Xmax (mm) | Vd (cm³) | Sensitivity (dB/W) | Power for 95 dB | Estimated Low Limit @ Xmax | Conservative Sweep Start |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| SB Acoustics NE123W-08 | 54 | 3.0 | 16.2 | 86.2 | 7.6 W | ~188 Hz | ~250 Hz |
+| Vifa NE123W-08 | 54 | 3.0 | 16.2 | 86.2 | 7.6 W | ~188 Hz | ~250 Hz |
 | Dayton RS100-4 | 35 | 4.0 | 14.0 | 84.5 | 11.2 W | ~203 Hz | ~275 Hz |
 | Eminence Alpha 3-8 | 28.6 | 2.4 | 6.86 | 88.6 | 4.4 W | ~289 Hz | ~400 Hz |
 | Beyma 3FR30 | 30 | 2.0 | 6.00 | 90.5 | 2.8 W | ~309 Hz | ~425 Hz |
